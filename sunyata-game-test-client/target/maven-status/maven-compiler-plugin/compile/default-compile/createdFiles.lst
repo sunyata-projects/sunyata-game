@@ -1,0 +1,4 @@
+org/sunyata/game/test/client/TestClient.class
+org/sunyata/game/test/client/TestClientHandler.class
+org/sunyata/game/test/client/Application.class
+org/sunyata/game/test/client/ApplicationBootStrap.class

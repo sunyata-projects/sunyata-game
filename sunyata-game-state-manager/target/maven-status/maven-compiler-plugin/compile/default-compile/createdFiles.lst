@@ -1,0 +1,8 @@
+org/sunyata/game/state/manager/config/RedisConfig.class
+org/sunyata/game/state/manager/config/DefaultCommandService.class
+org/sunyata/game/state/manager/config/RedisUserCacheService.class
+org/sunyata/game/state/manager/config/RandomUtils.class
+org/sunyata/game/state/manager/config/DefaultServerConfigProperties.class
+org/sunyata/game/state/manager/config/EnableOctopusState.class
+org/sunyata/game/state/manager/config/CommandStateConfig.class
+org/sunyata/game/state/manager/config/OctopusEvent.class

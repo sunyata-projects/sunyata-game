@@ -1,0 +1,13 @@
+package org.sunyata.game.contract.protobuf.system;
+option java_outer_classname = "OctopusSystemMessage";
+/*********
+通用消息protobuf定义,除各游戏内,其它的通用消息都放在此文件中
+*********/
+
+
+//登录请求消息
+message LoginSuccessEventMsg{
+required string userName = 1;//用户名
+required int32 userId = 2;//用户名
+required int32 gateServerId = 3;//用户名
+}

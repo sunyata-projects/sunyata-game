@@ -1,0 +1,20 @@
+package org.sunyata.game.contract.protobuf.test;
+option java_outer_classname = "Test";
+
+//创建房间
+message TestReq{
+    required int32 id = 1;
+    required string name = 2;
+}
+
+message TestRetReq{
+    required int32 id = 1;
+    required string name = 2;
+}
+
+message Test2RetReq{
+    required bool flag = 1;
+    required string name = 2;
+    required int32  age = 3;
+    required string field1 = 4;
+}

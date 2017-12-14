@@ -1,0 +1,11 @@
+/Users/apple/work/ssa/sunyata-game/sunyata-game-contract/src/main/java/org/sunyata/game/contract/protobuf/common/Common.java
+/Users/apple/work/ssa/sunyata-game/sunyata-game-contract/src/main/java/org/sunyata/game/contract/majiang/OperationNames.java
+/Users/apple/work/ssa/sunyata-game/sunyata-game-contract/src/main/java/org/sunyata/game/contract/ProductCodes.java
+/Users/apple/work/ssa/sunyata-game/sunyata-game-contract/src/main/java/org/sunyata/game/contract/Commands.java
+/Users/apple/work/ssa/sunyata-game/sunyata-game-contract/src/main/java/org/sunyata/game/contract/protobuf/room/Room.java
+/Users/apple/work/ssa/sunyata-game/sunyata-game-contract/src/main/java/org/sunyata/game/contract/ServiceNames.java
+/Users/apple/work/ssa/sunyata-game/sunyata-game-contract/src/main/java/org/sunyata/game/contract/protobuf/test/Test.java
+/Users/apple/work/ssa/sunyata-game/sunyata-game-contract/src/main/java/org/sunyata/game/contract/ErrorCodes.java
+/Users/apple/work/ssa/sunyata-game/sunyata-game-contract/src/main/java/org/sunyata/game/contract/LoginSuccessEventInfo.java
+/Users/apple/work/ssa/sunyata-game/sunyata-game-contract/src/main/java/org/sunyata/game/contract/system/CheckJoinRoom.java
+/Users/apple/work/ssa/sunyata-game/sunyata-game-contract/src/main/java/org/sunyata/game/contract/protobuf/system/OctopusSystemMessage.java

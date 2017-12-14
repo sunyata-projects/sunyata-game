@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/sunyata-core/sunyata-core.iml" filepath="$PROJECT_DIR$/sunyata-core/sunyata-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/sunyata-game.iml" filepath="$PROJECT_DIR$/.idea/sunyata-game.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sunyata-game-app-client/sunyata-game-app-client.iml" filepath="$PROJECT_DIR$/sunyata-game-app-client/sunyata-game-app-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sunyata-game-application-service/sunyata-game-application-service.iml" filepath="$PROJECT_DIR$/sunyata-game-application-service/sunyata-game-application-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sunyata-game-contract/sunyata-game-contract.iml" filepath="$PROJECT_DIR$/sunyata-game-contract/sunyata-game-contract.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sunyata-game-core/sunyata-game-core.iml" filepath="$PROJECT_DIR$/sunyata-game-core/sunyata-game-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sunyata-game-gateway/sunyata-game-gateway.iml" filepath="$PROJECT_DIR$/sunyata-game-gateway/sunyata-game-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sunyata-game-inner-gateway/sunyata-game-inner-gateway.iml" filepath="$PROJECT_DIR$/sunyata-game-inner-gateway/sunyata-game-inner-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sunyata-game-majiang-core/sunyata-game-majiang-core.iml" filepath="$PROJECT_DIR$/sunyata-game-majiang-core/sunyata-game-majiang-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sunyata-game-majiang-scene-service/sunyata-game-majiang-scene-service.iml" filepath="$PROJECT_DIR$/sunyata-game-majiang-scene-service/sunyata-game-majiang-scene-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sunyata-game-state-manager/sunyata-game-state-manager.iml" filepath="$PROJECT_DIR$/sunyata-game-state-manager/sunyata-game-state-manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sunyata-game-test-client/sunyata-game-test-client.iml" filepath="$PROJECT_DIR$/sunyata-game-test-client/sunyata-game-test-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sunyata-game-test-server/sunyata-game-test-server.iml" filepath="$PROJECT_DIR$/sunyata-game-test-server/sunyata-game-test-server.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="sunyata-core" />
+        <module name="sunyata-game-app-client" />
+        <module name="sunyata-game-application-service" />
+        <module name="sunyata-game-contract" />
+        <module name="sunyata-game-core" />
+        <module name="sunyata-game-gateway" />
+        <module name="sunyata-game-inner-gateway" />
+        <module name="sunyata-game-majiang-core" />
+        <module name="sunyata-game-majiang-scene-service" />
+        <module name="sunyata-game-state-manager" />
+        <module name="sunyata-game-test-client" />
+        <module name="sunyata-game-test-server" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="sunyata-core" target="1.8" />
+      <module name="sunyata-game" target="1.8" />
+      <module name="sunyata-game-app-client" target="1.8" />
+      <module name="sunyata-game-application-service" target="1.8" />
+      <module name="sunyata-game-contract" target="1.8" />
+      <module name="sunyata-game-core" target="1.8" />
+      <module name="sunyata-game-gateway" target="1.8" />
+      <module name="sunyata-game-inner-gateway" target="1.8" />
+      <module name="sunyata-game-majiang-core" target="1.8" />
+      <module name="sunyata-game-majiang-scene-service" target="1.8" />
+      <module name="sunyata-game-state-manager" target="1.8" />
+      <module name="sunyata-game-test-client" target="1.8" />
+      <module name="sunyata-game-test-server" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

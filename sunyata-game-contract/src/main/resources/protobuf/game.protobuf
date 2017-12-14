@@ -1,0 +1,169 @@
+
+//房间列表
+message RoomListReq{
+    required int32 pageNum = 1;//页数
+    required int32 pageSize = 2;//每页显示条数
+}
+//房间列表响应
+message RoomListRes{
+    repeated RoolInfo roomInfos = 1;//房间信息列表
+    required int32 pageNum = 2;//当前页数
+    required int32 totalPage = 3;//总页数
+    required int32 totalNum = 4;//总条数
+    required int32 pageSize = 5;//每页显示条数
+}
+//踢人
+message kickPlayerReq{
+    required string playerId = 1;
+}
+//踢人响应
+message kickPlayerRes{
+
+}
+//创建房间
+message CreateRoomReq{
+    repeated int32 ruleIds = 1;//规则id数组
+}
+//创建房间响应
+message CreateRoomRes{
+    optional string roomId = 1;//房间id
+}
+//进入房间
+message EnterRoomReq{
+    required string roomId = 1;//房间id
+}
+//进入房间响应
+message EnterRoomRes{
+    required RoolInfo roomInfo = 1;//房间信息
+}
+//房间信息发生变化，例如有人进入
+message RoomInfoChangeRes{
+    required RoolInfo roomInfo = 1;//房间信息
+}
+//离开房间
+message LeaveRoomReq{
+
+}
+//离开房间响应
+message LeaveRoomRes{
+    
+}
+//房间信息
+message RoolInfo{
+    required string roomId = 1;//房间id
+    repeated PlayerInfo players = 2;//房间里的人，当游戏开始之前index仅代表先后进入顺序，当游戏开始之后index代表方向， 0代表东 1代表北 2代表西 3代表南
+    required int32 curentCircle = 6;//当前圈数
+    required int32 totalCircle = 7;//总圈数
+    required int32 dealer = 8;//庄家方向 0代表东 1代表北 2代表西 3代表南 -1代表未确定
+    required int32 status = 9;//状态 0游戏未开始 1打牌中 2一局结束下一局未开始 3最后一局打完
+    required int32 currentTurn  = 10;//当前轮到哪个方向行动， 0代表东 1代表北 2代表西 3代表南 -1代表无
+    required int32 countDown = 11;//倒计时剩余时间
+    repeated SettleInfo settleInfos = 12;//每一局的结算信息，如果两局中间状态为未开始时展示，可以考虑数组最后一个当做总结算
+}
+//结算信息
+message SettleInfo{
+    repeated int32 scores = 2;//一局的结算分数，数组的index代表方向 0代表东 1代表北 2代表西 3代表南
+}
+//人信息
+message PlayerInfo{
+    required string displayName = 1;//显示名
+    required int32 score = 2;//分数
+    repeated int32 handMahjongs = 3;//手里的麻将，一维数组，不可见的牌用-1（参考麻将type枚举）
+    repeated Mahjongs openMahjongs = 4;//门前吃碰杠的麻将，二维数组，因为要区分组合
+    optional int32 catchMahjongs = 5;//刚抓来的麻将，不可见的牌用-1（参考麻将type枚举）
+    repeated int32 discardMahjongs = 6;//出过的牌，一维数组
+    required string playerId = 7;//一个人的唯一标识
+    required int32 status = 9;//状态 0未准备 1已准备 2游戏中
+}
+//一组麻将，麻将数组，用于各种二维数组的第二维
+message Mahjongs{
+    repeated int32 mahjongs = 1;//不可见的牌用-1（参考麻将type枚举）
+}
+//准备，进入房间前端主动发起准备，一局结束后点击按钮发起
+message ReadyReq{
+
+}
+//准备广播
+message ReadyReq{
+    required int32 playerId = 1;//准备的人的id
+}
+//开始游戏发牌
+message DealRes{
+    repeated Mahjongs sendMahjongs = 1;//发牌的二维数组 第一维的index代表方向 0代表东 1代表北 2代表西 3代表南
+    required int32 dealer = 2;//庄家方向 0代表东 1代表北 2代表西 3代表南
+    required int32 countDown = 3;//倒计时剩余时间
+    required RoolInfo roomInfo = 4;//房间信息包括人的信息
+}
+//打牌 
+message DiscardReq{
+    required int32 mahjong = 1;//打出的牌
+}
+//打牌广播
+message DiscardRes{
+    required int32 mahjong = 1;//打出的牌
+    required int32 player = 2;//打牌人的方位， 0代表东 1代表北 2代表西 3代表南
+    required bool isOver = 3;//是否打出最后一张牌
+    required bool needWait = 4;//是否有人可能会吃碰杠听胡，如果有会单独开启一个等待倒计时
+    required int32 countDown = 3;//倒计时剩余时间，如果needWait为true则为等待吃碰杠听胡倒计时，如果为false则为下家的倒计时，如果isover了并且没有needwait则不需要倒计时
+}
+//过 不吃碰杠听胡
+message PassReq{
+
+}
+//过广播，此时要取消wait的倒计时，并且增加下一位行动者的倒计时
+message PassRes{
+    required int32 countDown = 1;//下一位行动者的倒计时
+}
+//吃
+message ChowReq{
+    repeated int32 mahjongs = 1;//用来吃的牌，不包括被吃的牌
+}
+//吃广播
+message ChowRes{
+    repeated int32 mahjongs = 1;//吃完的牌，包括被吃的牌
+    required int32 player = 2;//吃牌人的方位， 0代表东 1代表北 2代表西 3代表南
+    required int32 countDown = 3;//倒计时剩余时间
+}
+//碰
+message PongReq{
+    repeated int32 mahjongs = 1;//用来碰的牌，不包括被碰的牌
+}
+//碰广播
+message PongRes{
+    repeated int32 mahjongs = 1;//碰完的牌，包括
+    required int32 player = 2;//碰牌人的方位， 0代表东 1代表北 2代表西 3代表南
+    required int32 countDown = 3;//倒计时剩余时间
+}
+//杠
+message KongReq{
+    repeated int32 mahjongs = 1;//杠牌数组，杠别人打的时三张，暗杠四张，开门碰抓杠一张
+}
+//杠广播
+message KongRes{
+    repeated int32 mahjongs = 1;//杠完的牌，包括所有，固定四张
+    required int32 player = 2;//杠牌人的方位， 0代表东 1代表北 2代表西 3代表南
+    required int32 kongType = 3;//杠的类型，0为暗杠，1为明杠，2位开门碰抓杠
+    required int32 countDown = 4;//倒计时剩余时间
+    optional int32 mahjong = 5;//杠后抓的牌，如果最后一张牌抓完杠的则没有此字段
+}
+//听
+message HearReq{
+    repeated int32 mahjongs = 1;//用来劫听的牌，不包括被吃碰的牌，如果不是劫听则空数组
+}
+//听广播
+message HearRes{
+    repeated int32 mahjongs = 1;//劫听开门的牌，包括所有
+    required int32 player = 2;//听牌人的方位， 0代表东 1代表北 2代表西 3代表南
+    required int32 countDown = 3;//倒计时剩余时间
+}
+//胡 
+message HuReq{
+
+}
+//胡广播
+message HuRes{
+    required int32 player = 1;//胡牌人的方位， 0代表东 1代表北 2代表西 3代表南
+    repeated SettleInfo currentSettleInfos = 2;//当前局的结算信息
+    repeated SettleInfo totalSettleInfos = 3;//总的结算信息
+    repeated Mahjongs sendMahjongs = 3;//亮牌的二维数组 第一维的index代表方向 0代表东 1代表北 2代表西 3代表南
+}

@@ -1,0 +1,53 @@
+package org.sunyata.game.contract.protobuf.common;
+option java_outer_classname = "Common";
+/*********
+通用消息protobuf定义,除各游戏内,其它的通用消息都放在此文件中
+*********/
+
+
+//登录请求消息
+message LoginRequestMsg{
+required int32 type = 1;//登录类型1用户名密码,2手机验证码,3微信,9匿名,
+required string openId = 2;//用户名,手机号,openId
+required string code = 3;//手机的验证码,微信息的加密串,用户名密码的密码
+required string longitude = 4;//经度
+required string latitude = 5;//纬度
+}
+
+//登录应答
+//登录应答只返回是否成功
+message LoginResponseMsg
+{
+    required int32 id = 1;
+    required string name = 2;
+    required string openId = 3;
+    required string uuid = 4;
+    optional string avatar = 5;
+    optional int32 sex = 6;
+    optional string roomCheckId = 7;
+    optional int64 gold = 8;
+    required string loginToken = 9;
+    optional string ip = 10;
+}
+
+
+
+//个性化信息请求消息
+message ProfileRequestMsg{
+}
+
+//个性化消息应答
+message ProfileResponseMsg
+{
+    optional string     userId       = 1; //账号
+    optional string     displayName  = 2; //显示名
+    optional string      money        = 3; // RMB
+    optional int64 	    vc           = 4;// 虚拟货币 (点数)
+}
+
+//余额变化
+message BalanceChangedResponseMsg
+{
+  required string  balance = 1; //当前余额
+}
+

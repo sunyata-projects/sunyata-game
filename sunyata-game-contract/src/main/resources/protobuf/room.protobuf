@@ -1,0 +1,240 @@
+package org.sunyata.game.contract.protobuf.room;
+option java_outer_classname = "Room";
+/*********
+通用消息protobuf定义,除各游戏内,其它的通用消息都放在此文件中
+*********/
+
+message KeyValueInfo{
+    required string key = 1;//规则名称(唯一)
+    required string value = 2;//规则值
+}
+
+//创建房间
+message CreateRoomReq{
+    required int32 gameType = 1;
+    repeated KeyValueInfo ruleIds = 2;//规则id数组
+}
+//创建房间响应
+message CreateRoomRes{
+    optional string roomCheckId = 1;//房间CheckId
+}
+
+
+//进入房间
+message JoinRoomReq{
+    required string roomCheckId = 1;//房间checkId
+}
+//进入房间响应
+message JoinRoomRes{
+    required string roomCheckId = 1;//房间checkId
+    required int32 destServerId = 2;//房间所在服务器id
+}
+
+//进入游戏
+message JoinGameReq{
+    //required string roomCheckId = 1;//房间checkId
+}
+//房间信息
+message GameRoomInfo{
+    repeated GameUserInfo sceneUser = 1;//
+    required bool start = 2;//
+    required string roomCheckId = 3;//
+    required int32 leftChapterNums = 4;//
+    required int32 createUserId = 5;//
+    optional MajiangChapter chapter = 6;//
+    required int32 sceneServerId = 7;//
+
+}
+message MajiangChapter{
+    required int32 freeLength = 1;//剩余多少张牌,没有抓
+    required int32 baoliuLength = 2;//
+    repeated int32 huiEr = 3;//会儿,有些牌种会有多个会儿
+    required string bianType = 4;//牌规则的类型,暂时无意义
+    required int32 bianSource = 5;//牌规则的类型,暂时无意义
+    repeated UserPlace userPlace = 6;//
+    required int32 currentIndex = 7;//当前玩家索引(位置)
+    required int32 chapterNums = 8;//局数
+    required int32 chapterNumsMax = 9;//游戏内可以的最大局数
+    required int32 quanIndex = 10;//圈索引0开始
+    required int32 zhuangIndex = 11;//计索引,位置从0开始
+    optional OperationCPGH optCPGH = 12;//当前吃碰杠和信息
+    optional OperationCPGH optFaPai = 13;//当前玩家发牌信息
+    optional OperationOut optOut = 14;//当前玩家出牌
+    optional SyncOptTime syncOptTime = 15;//当前玩家计时信息
+    optional GameChapterEnd gameChapterEnd = 16;//牌局结束信息
+    optional TingPai tingPai = 17;//当前玩家听牌信息
+}
+
+message UserPlace{
+
+    repeated int32 shouPai = 1;//
+    required int32 shouPaiLen = 2;//
+    repeated int32 anGang = 3;//
+    repeated int32 xiaoMingGang = 4;//
+    repeated int32 daMingGang = 5;//
+    repeated int32 peng = 6;//
+    repeated int32 chi = 7;//
+    repeated int32 outPai = 8;//
+    optional int32 outingPai = 9;//玩家出的牌，正在等待别人吃碰杠和，可以为空
+}
+message GameChapterStartRes{//通知玩家局开始
+
+}
+message OperationCPGH{
+
+    required int32 index = 1;//
+    repeated OperationInfo operationInfo = 2;//
+    required int32 pai = 3;
+}
+message OperationInfo{
+    required string opt = 1;
+    repeated int32 pai = 2;
+}
+message OperationCPGHRetReq{//吃碰杠等操作
+
+    required string opt = 1;//操作类型
+    repeated int32 chi = 2;//
+}
+
+
+message OperationFaPai{//服务端下发消息，抓牌
+
+    required int32 index = 1;//
+    required int32 pai = 2;//
+    repeated int32 anGang = 3;//
+    repeated int32 mingGang = 4;//
+    required bool hu = 5;//
+}
+
+message OperationFaPaiRetReq{//当抓完牌后，没有进行任何吃碰杠等操作的打牌
+
+    required string opt = 1;//操作类型
+    required int32 pai = 2;//
+}
+
+message OperationOut{//通知用户该出牌了，公当用户吃碰杠后才通知
+    required int32 index = 1;//
+}
+
+
+
+message OperationOutRetReq{//吃碰杠等操作后的出牌
+    required int32 pai = 1;//
+}
+message SyncOptTime{
+    required int32 index = 1;//
+    required int32 leftTime = 2;//
+}
+
+
+message GameChapterEnd{
+
+    required int32 huPaiIndex = 1;//
+    required int32 fangPaoIndex = 2;//
+    required int32 zaMaType = 3;//
+    repeated int32 zaMaPai = 4;//
+    required int32 zaMaFan = 5;//
+
+    repeated GameFanResult fanResults = 6;//
+}
+
+message TingPai{
+    repeated int32 pais = 1;//
+}
+
+
+
+message GameFanResult{
+    required int32 queTou = 1;//
+    repeated int32 shunZi = 2;//
+    repeated int32 keZi = 3;//
+    repeated int32 shouPai = 4;//
+    repeated int32 huiErBian = 5;//
+    repeated int32 anGang = 6;//
+    repeated int32 xiaoMingGang = 7;//
+    repeated int32 daMingGang = 8;//
+    repeated int32 peng = 9;//
+    repeated int32 chi = 10;//
+    required string baseFanType = 11;//
+    required string fanString = 12;//
+    required int32 fan = 13;//
+    required string userName = 14;//
+    required int32 score = 15;//
+    required int32 guaFengXiaYu = 16;//
+}
+
+
+message GameUserInfo{
+    required string userName = 1;//
+    required string avatar = 2;//
+    required int32 sex = 3;//
+    required int32 gold = 4;//
+    required int32 score = 5;//
+    required int32 locationIndex = 6;//
+    required int32 userId = 7;//
+    required bool  online = 8;//
+    required string ip = 9;//
+    //required string user0Distance = 10;//
+    //required string user1Distance = 11;//
+    //required string user2Distance = 12;//
+    //required string user3Distance = 13;//
+}
+
+message GameDelRoom{
+    required bool isEnd = 1;//
+    required bool isStart = 2;//
+}
+
+
+
+message GameChapterStartRet{
+
+}
+message SyncOpt{
+    required string opt = 1;//
+    required int32 index =2;//
+    required int32 pai = 3;//
+    repeated int32 chi = 4;//
+}
+message Notice{
+    required string key = 1;//
+    repeated string args = 2;
+    required int32 type = 3;//
+    required bool rebot = 4;//
+}
+
+
+
+//房间信息
+message RoolInfo{
+    required string roomId = 1;//房间id
+    repeated PlayerInfo players = 2;//房间里的人，当游戏开始之前index仅代表先后进入顺序，当游戏开始之后index代表方向， 0代表东 1代表北 2代表西 3代表南
+    required int32 curentCircle = 6;//当前圈数
+    required int32 totalCircle = 7;//总圈数
+    required int32 dealer = 8;//庄家方向 0代表东 1代表北 2代表西 3代表南 -1代表未确定
+    required int32 status = 9;//状态 0游戏未开始 1打牌中 2一局结束下一局未开始 3最后一局打完
+    required int32 currentTurn  = 10;//当前轮到哪个方向行动， 0代表东 1代表北 2代表西 3代表南 -1代表无
+    required int32 countDown = 11;//倒计时剩余时间
+    repeated SettleInfo settleInfos = 12;//每一局的结算信息，如果两局中间状态为未开始时展示，可以考虑数组最后一个当做总结算
+}
+
+//人信息
+message PlayerInfo{
+    required string displayName = 1;//显示名
+    required int32 score = 2;//分数
+    repeated int32 handMahjongs = 3;//手里的麻将，一维数组，不可见的牌用-1（参考麻将type枚举）
+    repeated Mahjongs openMahjongs = 4;//门前吃碰杠的麻将，二维数组，因为要区分组合
+    optional int32 catchMahjongs = 5;//刚抓来的麻将，不可见的牌用-1（参考麻将type枚举）
+    repeated int32 discardMahjongs = 6;//出过的牌，一维数组
+    required string playerId = 7;//一个人的唯一标识
+    required int32 status = 9;//状态 0未准备 1已准备 2游戏中
+}
+
+//一组麻将，麻将数组，用于各种二维数组的第二维
+message Mahjongs{
+    repeated int32 mahjongs = 1;//不可见的牌用-1（参考麻将type枚举）
+}
+//结算信息
+message SettleInfo{
+    repeated int32 scores = 2;//一局的结算分数，数组的index代表方向 0代表东 1代表北 2代表西 3代表南
+}
