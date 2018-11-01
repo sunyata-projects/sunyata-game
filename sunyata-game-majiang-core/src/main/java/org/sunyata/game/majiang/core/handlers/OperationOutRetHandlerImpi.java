@@ -7,7 +7,7 @@ import org.sunyata.game.majiang.core.models.SceneUser;
 import org.sunyata.game.majiang.core.models.message.OperationOutRet;
 
 /**
- * @author leo on 2016/10/31.
+ * @author leo on 2017/10/31.
  */
 @Component(Commands.optOutRet)
 public class OperationOutRetHandlerImpi implements MessageHandler<OperationOutRet, SceneUser> {

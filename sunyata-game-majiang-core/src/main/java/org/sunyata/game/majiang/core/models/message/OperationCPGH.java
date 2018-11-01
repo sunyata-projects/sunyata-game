@@ -30,8 +30,7 @@ public class OperationCPGH extends AbstractMessage {
     protected List<OperationCPGHInfo> operationCPGHInfos = new ArrayList<>();
 
     public OperationCPGHInfo getOperationInfo(String optName) {
-        OperationCPGHInfo operationCPGHInfo = operationCPGHInfos.stream().filter(p -> p.getClass().getAnnotation(org.sunyata.game.majiang.core.models
-                .majiang.actions.Action.class).value().equals(optName)).findFirst().orElse(null);
+        OperationCPGHInfo operationCPGHInfo = operationCPGHInfos.stream().filter(p -> p.getOpt().equals(optName)).findFirst().orElse(null);
         return operationCPGHInfo;
     }
 

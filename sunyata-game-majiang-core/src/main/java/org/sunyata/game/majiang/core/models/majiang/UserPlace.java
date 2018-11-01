@@ -3,6 +3,7 @@ package org.sunyata.game.majiang.core.models.majiang;
 import com.google.common.collect.ArrayListMultimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sunyata.game.majiang.core.models.majiang.guangdong.GuangDongJudgeHuService;
 import org.sunyata.game.majiang.core.models.message.UserPlaceMsg;
 
 import java.util.*;
@@ -15,11 +16,17 @@ import java.util.stream.Stream;
  * @author leo on 16/10/17.
  */
 public class UserPlace {
+    public JudgeHuService getJudgeHuService() {
+        return judgeHuService;
+    }
+
+    private final JudgeHuService judgeHuService;
     Logger logger = LoggerFactory.getLogger(UserPlace.class);
     /**
      * 显示暗杠的手数
      */
     public static final int SHOW_ANGANG_SHOUNUMS = 4;
+
     /**
      * 手牌
      */
@@ -75,8 +82,8 @@ public class UserPlace {
     private int userId;
     private String userName;
 
-    public UserPlace() {
-
+    public UserPlace(JudgeHuService judgeHuService) {
+        this.judgeHuService = judgeHuService;
     }
 
 
@@ -88,6 +95,7 @@ public class UserPlace {
         xiaoMingGang.clear();
         daMingGang.clear();
         peng.clear();
+        outing = null;
         allOut.clear();
         chi.clear();
         out.clear();
@@ -149,8 +157,16 @@ public class UserPlace {
         return arr;
     }
 
-    public ArrayList<Pai> getShouPai() {
+    public ArrayList<Pai> getShouPaiList() {
         return shouPaiList;
+    }
+
+    public ArrayListMultimap<Pai, Pai> getShouPaiMap() {
+        return shouPaiMap;
+    }
+
+    public ArrayListMultimap<PaiType, Pai> getShouPai() {
+        return shouPai;
     }
 
     public ArrayList<Map.Entry<Integer, Pai>> getAnGang() {
@@ -171,6 +187,16 @@ public class UserPlace {
 
     public ArrayList<Pai[]> getChi() {
         return chi;
+    }
+
+    public ArrayList<Pai> getChiFirst() {
+        ArrayList<Pai> results = new ArrayList<>();
+        if (chi == null || chi.size() == 0) {
+            for (Pai[] pais : chi) {
+                results.add(pais[0]);
+            }
+        }
+        return results;
     }
 
 
@@ -282,27 +308,36 @@ public class UserPlace {
         return result;
     }
 
-    public boolean isQiDui() {
-        if (shouPaiMap.size() == 14) {
-            return shouPaiMap.asMap().values().stream().filter(v -> v.size() == 2).count() == 7;
-        }
-        return false;
-    }
-
-    public boolean isQiDui(Pai pai) {
-        if (shouPaiMap.size() == 14) {
-            Stream<Pai> concat = Stream.concat(shouPai.values().stream(), Stream.of(pai));
-            return concat.collect(Collectors.groupingBy(
-                    r -> r
-            )).values().stream().filter(v -> v.size() == 2).count() == 7;
-        }
-        return false;
-    }
+//    public boolean isQiDui() {
+//        if (shouPaiMap.size() == 14) {
+//            return shouPaiMap.asMap().values().stream().filter(v -> v.size() == 2).count() == 7;
+//        }
+//        return false;
+//    }
+//
+//    public boolean isQiDui(Pai pai) {
+//        if (shouPaiMap.size() == 14) {
+//            Stream<Pai> concat = Stream.concat(shouPai.values().stream(), Stream.of(pai));
+//            return concat.collect(Collectors.groupingBy(r -> r)).values().stream().filter(v -> v.size() == 2).count()
+//                    == 7;
+//        }
+//        return false;
+//    }
 
 
     public boolean isHuPai(boolean isHuihuiGang, ArrayList<Pai> all, Pai huiEr[]) {
-        return isHuiErGang(isHuihuiGang, huiEr) || isQiDui() || AgariUtils.isHuiErHuPai(all, shouPai.values(), huiEr);
+        //return isHuiErGang(isHuihuiGang, huiEr) || isQiDui() || AgariUtils.isHuiErHuPai(all, shouPai.values(), huiEr);
+        return judgeHuService.isHuPai(this, isHuihuiGang, all, huiEr);
     }
+
+    /**
+     * 检查是否能胡别人打出的牌
+     */
+    public boolean isHuPaiBy(Pai pai) {
+        //return judgeHuService.isSpecialHuPai(this, pai) || AgariUtils.isHuPai(shouPai.values(), pai);
+        return judgeHuService.isHuPaiBy(this, pai);
+    }
+
 
     public ArrayList<Pai> checkTingPai(boolean isHuihuiGang, ArrayList<Pai> all, Pai huiEr[]) {
         ArrayList<Pai> tingPais = new ArrayList<>();
@@ -317,7 +352,8 @@ public class UserPlace {
         for (int i = 0; i < all.size(); i++) {
             Pai pai = all.get(i);
             testPais.set(shuPaiLen, pai);
-            if (isQiDui(pai)) {
+            GuangDongJudgeHuService dongJudgeHuService = (GuangDongJudgeHuService) judgeHuService;
+            if (dongJudgeHuService.isQiDui(this, pai)) {
                 tingPais.add(pai);
             } else if (AgariUtils.isHuiErHuPai(all, testPais, huiEr)) {
                 tingPais.add(pai);
@@ -352,15 +388,8 @@ public class UserPlace {
         return getShouPaiCount(huiEr[0]) == 4;
     }
 
-    /**
-     * 检查是否能胡别人打出的牌
-     */
-    public boolean isHuPaiBy(Pai pai) {
-        return isQiDui(pai) || AgariUtils.isHuPai(shouPai.values(), pai);
-    }
 
-
-    private int getShouPaiCount(Pai pai) {
+    public int getShouPaiCount(Pai pai) {
         int size = shouPaiMap.get(pai).size();
         if (size > 1) {
             logger.info("手牌:{},数:{}", pai, size);
@@ -370,6 +399,10 @@ public class UserPlace {
 
     public boolean checkShouPai(Pai pai) {
         return shouPaiMap.containsKey(pai);
+    }
+
+    public void clearOutingPai() {
+        outing = null;
     }
 
     public void addOut(Pai pai) {
@@ -401,7 +434,7 @@ public class UserPlace {
         return false;
     }
 
-    public PaiType isYiTiaoLong() {
+    /*public PaiType isYiTiaoLong() {
         PaiType type = isYiTiaoLong(Pai.TONG_1);
         if (type != null) {
             return type;
@@ -470,7 +503,7 @@ public class UserPlace {
         }
         return false;
     }
-
+*/
     public int getGengCount() {
         return (int) shouPai.asMap().values().stream().filter(coll -> coll.size() == 4).count();
     }
@@ -509,5 +542,4 @@ public class UserPlace {
                 ", userName='" + userName + '\'' +
                 '}';
     }
-
 }

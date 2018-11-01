@@ -89,12 +89,17 @@ public class SceneUser {
                 if (pbMsg != null) {
                     logger.info("向客户端发送消息:{}", JsonFormat.printToString(pbMsg));
                 }
-                anyClientManager.sendMessageToUser(sessionId, gatewayId, String.valueOf(msg.getMessageType()), bytes);
+                if (msg.getMessageType() == 0) {
+                    logger.error("错误:{}", msg.getClass().getTypeName());
+                }
+                anyClientManager.sendMessageToUserByInnerGatewayServer(sessionId, gatewayId, String.valueOf(msg.getMessageType()), bytes);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+
+
 
 
     public void noticeError(String key) {
@@ -125,7 +130,7 @@ public class SceneUser {
                     (reboot).build()
                     .toByteArray();
             try {
-                anyClientManager.sendMessageToUser(sessionId, gatewayId, Commands.notice, bytes);
+                anyClientManager.sendMessageToUserByInnerGatewayServer(sessionId, gatewayId, Commands.notice, bytes);
             } catch (Exception e) {
                 e.printStackTrace();
             }

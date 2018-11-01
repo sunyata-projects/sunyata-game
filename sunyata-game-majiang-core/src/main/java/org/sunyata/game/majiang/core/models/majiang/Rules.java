@@ -1,23 +1,23 @@
 package org.sunyata.game.majiang.core.models.majiang;
 
-import org.sunyata.game.majiang.core.models.room.RoomConfigInfo;
-import org.sunyata.game.majiang.core.models.majiang.guangdong.BaseFanType;
-import org.sunyata.game.majiang.core.models.majiang.guangdong.JiaFanType;
+import org.sunyata.game.majiang.core.models.majiang.gb.GbRules;
 import org.sunyata.game.majiang.core.models.majiang.guangdong.ZhongyouGdRules;
+import org.sunyata.game.majiang.core.models.room.RoomConfigInfo;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * @author leo on 2017/1/17.
  */
-public abstract class Rules  {
+public abstract class Rules {
+    public static final String gb = "gb";
+    public static final String guangDong = "zhongyouGD";
     public static Rules createRules(String name, RoomConfigInfo config) {
         switch (name) {
             case "zhongyouGD":
                 return new ZhongyouGdRules(config);
             default:
-                return new ZhongyouGdRules(config);
+                return new GbRules(config);
         }
     }
 
@@ -72,9 +72,9 @@ public abstract class Rules  {
 
 //    public abstract int getZaMa();
 
-    public abstract Map<JiaFanType, FanInfo> getJiaFanMap();
-
-    public abstract Map<BaseFanType, FanInfo> getBaseFanMap();
+//    public abstract Map<JiaFanTypeInterface, FanInfo> getJiaFanMap();
+//
+//    public abstract Map<BaseFanTypeInterface, FanInfo> getBaseFanMap();
 
     public abstract boolean isHuiErGang();
 

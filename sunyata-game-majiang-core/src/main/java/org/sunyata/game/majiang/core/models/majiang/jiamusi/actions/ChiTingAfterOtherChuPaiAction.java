@@ -42,7 +42,7 @@ public class ChiTingAfterOtherChuPaiAction implements MajiangAction {
                 if (userPlace.getLocationIndex() != nextIndex) {//当前出牌人的下家不为userPlace,才可以吃听
                     //pai+userPlace.getShouPai - 任意一张牌,可胡
                     for (Pai[] chiPais : chiList) {
-                        List<Pai> shouPaiCopy = new ArrayList<>(userPlace.getShouPai());
+                        List<Pai> shouPaiCopy = new ArrayList<>(userPlace.getShouPaiList());
                         for (Pai chi : chiPais) {//把吃的牌放在门前
                             if (chi != pai) {
                                 shouPaiCopy.remove(chi);
@@ -53,8 +53,10 @@ public class ChiTingAfterOtherChuPaiAction implements MajiangAction {
                             Pai remove = shouPaiCopy.remove(pos);
                             ArrayList<Pai> tingPais = checkTing(chapter, chapter.getRules().getAllPai(), shouPaiCopy);
                             if (tingPais.size() > 0) {
+                                ArrayList<Pai[]> pais = new ArrayList<>();
+                                pais.add(chiPais);
                                 CheckResult result = new CheckResult(index, i).setActionName(OperationNames
-                                        .OPT_CHI_TING).setPais(chiPais).setSuggest(new int[]{remove.getIndex()});
+                                        .OPT_CHI_TING).setPais(pais).setSuggest(new int[]{remove.getIndex()});
                                 results.add(result);
                             }
 

@@ -12,6 +12,7 @@ import org.sunyata.game.server.OctopusPacketResponse;
 import org.sunyata.game.server.message.LogoutJsonBodySerializer;
 import org.sunyata.game.server.message.OctopusRawMessage;
 import org.sunyata.game.server.message.UserOfflineJsonBodySerializer;
+import org.sunyata.game.service.ServerLocation;
 import org.sunyata.game.service.UserCacheService;
 import org.sunyata.game.service.UserLocationInfo;
 import org.sunyata.game.service.UserLocationService;
@@ -32,6 +33,9 @@ public class LogoutEventCommand extends AbstractCommandHandler {
     @Autowired
     UserLocationService userLocationService;
 
+    @Autowired
+    ServerLocation serverLocation;
+
     @Override
     public boolean onExecuteBefore(OctopusPacketRequest request, OctopusPacketResponse response) {
         return true;
@@ -51,10 +55,13 @@ public class LogoutEventCommand extends AbstractCommandHandler {
                     .getGatewayServerId(), jsonBodySerializer
                     .getUserInGatewayId());
             if (userLocationInfo != null) {
-                anyClientManager.sendSysMessageByInnerGateway(Commands.userOffline, new UserOfflineJsonBodySerializer()
-                        .setUserId(userLocationInfo.getUserId()));
-                userLocationService.removeCacheUserLocation(jsonBodySerializer.getGatewayServerId(), jsonBodySerializer
-                        .getUserInGatewayId());
+                if (userLocationInfo.getSceneServerId() > 0) {
+                    anyClientManager.sendSysMessageByInnerGateway(Commands.userOfflineEvent, new
+                            UserOfflineJsonBodySerializer().setUserId(userLocationInfo.getUserId()), userLocationInfo
+                            .getSceneServerId());
+                }
+                userLocationService.removeCacheUserLocation(jsonBodySerializer.getGatewayServerId(),
+                        jsonBodySerializer.getUserInGatewayId());
                 userCacheService.removeCacheUserInfo(jsonBodySerializer.getGatewayServerId(), jsonBodySerializer
                         .getUserInGatewayId());
             }

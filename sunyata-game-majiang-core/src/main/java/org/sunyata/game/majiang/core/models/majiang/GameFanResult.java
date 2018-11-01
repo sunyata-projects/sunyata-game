@@ -5,65 +5,68 @@ import org.sunyata.game.server.message.AbstractMessage;
 
 /**
  * 牌局结束
- * 
+ * <p>
  * <b>生成器生成代码，请勿修改，扩展请继承</b>
+ *
  * @author isnowfox消息生成器
  */
-public class GameFanResult extends AbstractMessage{
-	public static final int TYPE			 = 1;
-	public static final int ID				 = 5;
-	
-	private int queTou;
-	private int[] shunZi;
-	private int[] keZi;
-	private int[] shouPai;
-	/**
-	 * 会儿变化
-	 */
-	private int[] huiErBian;
-	/**
-	 * 已经显示的暗杠，如果是自己的则全部显示,不是自己的且如果还不能显示，那么传递-1
-	 */
-	private int[] anGang;
-	private int[] xiaoMingGang;
-	private int[] daMingGang;
-	private int[] peng;
-	/**
-	 * 3个一组一组
-	 */
-	private int[] chi;
-	private String baseFanType;
-	private String fanString;
-	private int fan;
-	private String userName;
-	/**
-	 * 改变值
-	 */
-	private int score;
-	private int guaFengXiaYu;
-	
-	public GameFanResult(){
-		
-	}
-	
-	public GameFanResult(int queTou, int[] shunZi, int[] keZi, int[] shouPai, int[] huiErBian, int[] anGang, int[] xiaoMingGang, int[] daMingGang, int[] peng, int[] chi, String baseFanType, String fanString, int fan, String userName, int score, int guaFengXiaYu){
-		this.queTou = queTou;
-		this.shunZi = shunZi;
-		this.keZi = keZi;
-		this.shouPai = shouPai;
-		this.huiErBian = huiErBian;
-		this.anGang = anGang;
-		this.xiaoMingGang = xiaoMingGang;
-		this.daMingGang = daMingGang;
-		this.peng = peng;
-		this.chi = chi;
-		this.baseFanType = baseFanType;
-		this.fanString = fanString;
-		this.fan = fan;
-		this.userName = userName;
-		this.score = score;
-		this.guaFengXiaYu = guaFengXiaYu;
-	}
+public class GameFanResult extends AbstractMessage {
+    public static final int TYPE = 1;
+    public static final int ID = 5;
+
+    private int queTou;
+    private int[] shunZi;
+    private int[] keZi;
+    private int[] shouPai;
+    /**
+     * 会儿变化
+     */
+    private int[] huiErBian;
+    /**
+     * 已经显示的暗杠，如果是自己的则全部显示,不是自己的且如果还不能显示，那么传递-1
+     */
+    private int[] anGang;
+    private int[] xiaoMingGang;
+    private int[] daMingGang;
+    private int[] peng;
+    /**
+     * 3个一组一组
+     */
+    private int[] chi;
+    private String baseFanType;
+    private String fanString;
+    private int fan;
+    private String userName;
+    /**
+     * 改变值
+     */
+    private int score;
+    private int guaFengXiaYu;
+
+    public GameFanResult() {
+
+    }
+
+    public GameFanResult(int queTou, int[] shunZi, int[] keZi, int[] shouPai, int[] huiErBian, int[] anGang, int[]
+            xiaoMingGang, int[] daMingGang, int[] peng, int[] chi, String baseFanType, String fanString, int fan,
+                         String userName, int score, int guaFengXiaYu) {
+        this.queTou = queTou;
+        this.shunZi = shunZi;
+        this.keZi = keZi;
+        this.shouPai = shouPai;
+        this.huiErBian = huiErBian;
+        this.anGang = anGang;
+        this.xiaoMingGang = xiaoMingGang;
+        this.daMingGang = daMingGang;
+        this.peng = peng;
+        this.chi = chi;
+        this.baseFanType = baseFanType;
+        this.fanString = fanString;
+        this.fan = fan;
+        this.userName = userName;
+        this.score = score;
+        this.guaFengXiaYu = guaFengXiaYu;
+    }
 //
 //	@Override
 //	public void decode(Input in)  throws IOException, ProtocolException {
@@ -105,193 +108,211 @@ public class GameFanResult extends AbstractMessage{
 //		out.writeInt(getGuaFengXiaYu());
 //	}
 
-	public int getQueTou() {
-		return queTou;
-	}
-	
-	public void setQueTou(int queTou) {
-		this.queTou = queTou;
-	}
+    public int getQueTou() {
+        return queTou;
+    }
 
-	public int[] getShunZi() {
-		return shunZi;
-	}
-	
-	public void setShunZi(int[] shunZi) {
-		this.shunZi = shunZi;
-	}
+    public void setQueTou(int queTou) {
+        this.queTou = queTou;
+    }
 
-	public int[] getKeZi() {
-		return keZi;
-	}
-	
-	public void setKeZi(int[] keZi) {
-		this.keZi = keZi;
-	}
+    public int[] getShunZi() {
+        return shunZi;
+    }
 
-	public int[] getShouPai() {
-		return shouPai;
-	}
-	
-	public void setShouPai(int[] shouPai) {
-		this.shouPai = shouPai;
-	}
+    public void setShunZi(int[] shunZi) {
+        this.shunZi = shunZi;
+    }
 
-	/**
-	 * 会儿变化
-	 */
-	public int[] getHuiErBian() {
-		return huiErBian;
-	}
-	
-	/**
-	 * 会儿变化
-	 */
-	public void setHuiErBian(int[] huiErBian) {
-		this.huiErBian = huiErBian;
-	}
+    public int[] getKeZi() {
+        return keZi;
+    }
 
-	/**
-	 * 已经显示的暗杠，如果是自己的则全部显示,不是自己的且如果还不能显示，那么传递-1
-	 */
-	public int[] getAnGang() {
-		return anGang;
-	}
-	
-	/**
-	 * 已经显示的暗杠，如果是自己的则全部显示,不是自己的且如果还不能显示，那么传递-1
-	 */
-	public void setAnGang(int[] anGang) {
-		this.anGang = anGang;
-	}
+    public void setKeZi(int[] keZi) {
+        this.keZi = keZi;
+    }
 
-	public int[] getXiaoMingGang() {
-		return xiaoMingGang;
-	}
-	
-	public void setXiaoMingGang(int[] xiaoMingGang) {
-		this.xiaoMingGang = xiaoMingGang;
-	}
+    public int[] getShouPai() {
+        return shouPai;
+    }
 
-	public int[] getDaMingGang() {
-		return daMingGang;
-	}
-	
-	public void setDaMingGang(int[] daMingGang) {
-		this.daMingGang = daMingGang;
-	}
+    public void setShouPai(int[] shouPai) {
+        this.shouPai = shouPai;
+    }
 
-	public int[] getPeng() {
-		return peng;
-	}
-	
-	public void setPeng(int[] peng) {
-		this.peng = peng;
-	}
+    /**
+     * 会儿变化
+     */
+    public int[] getHuiErBian() {
+        return huiErBian;
+    }
 
-	/**
-	 * 3个一组一组
-	 */
-	public int[] getChi() {
-		return chi;
-	}
-	
-	/**
-	 * 3个一组一组
-	 */
-	public void setChi(int[] chi) {
-		this.chi = chi;
-	}
+    /**
+     * 会儿变化
+     */
+    public void setHuiErBian(int[] huiErBian) {
+        this.huiErBian = huiErBian;
+    }
 
-	public String getBaseFanType() {
-		return baseFanType;
-	}
-	
-	public void setBaseFanType(String baseFanType) {
-		this.baseFanType = baseFanType;
-	}
+    /**
+     * 已经显示的暗杠，如果是自己的则全部显示,不是自己的且如果还不能显示，那么传递-1
+     */
+    public int[] getAnGang() {
+        return anGang;
+    }
 
-	public String getFanString() {
-		return fanString;
-	}
-	
-	public void setFanString(String fanString) {
-		this.fanString = fanString;
-	}
+    /**
+     * 已经显示的暗杠，如果是自己的则全部显示,不是自己的且如果还不能显示，那么传递-1
+     */
+    public void setAnGang(int[] anGang) {
+        this.anGang = anGang;
+    }
 
-	public int getFan() {
-		return fan;
-	}
-	
-	public void setFan(int fan) {
-		this.fan = fan;
-	}
+    public int[] getXiaoMingGang() {
+        return xiaoMingGang;
+    }
 
-	public String getUserName() {
-		return userName;
-	}
-	
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public void setXiaoMingGang(int[] xiaoMingGang) {
+        this.xiaoMingGang = xiaoMingGang;
+    }
 
-	/**
-	 * 改变值
-	 */
-	public int getScore() {
-		return score;
-	}
-	
-	/**
-	 * 改变值
-	 */
-	public void setScore(int score) {
-		this.score = score;
-	}
+    public int[] getDaMingGang() {
+        return daMingGang;
+    }
 
-	public int getGuaFengXiaYu() {
-		return guaFengXiaYu;
-	}
-	
-	public void setGuaFengXiaYu(int guaFengXiaYu) {
-		this.guaFengXiaYu = guaFengXiaYu;
-	}
+    public void setDaMingGang(int[] daMingGang) {
+        this.daMingGang = daMingGang;
+    }
 
-	
-	@Override
-	public String toString() {
-		return "GameFanResult [queTou=" + queTou + ",shunZi=" + shunZi + ",keZi=" + keZi + ",shouPai=" + shouPai + ",huiErBian=" + huiErBian + ",anGang=" + anGang + ",xiaoMingGang=" + xiaoMingGang + ",daMingGang=" + daMingGang + ",peng=" + peng + ",chi=" + chi + ",baseFanType=" + baseFanType + ",fanString=" + fanString + ",fan=" + fan + ",userName=" + userName + ",score=" + score + ",guaFengXiaYu=" + guaFengXiaYu + ", ]";
-	}
-	
-	@Override
-	public final int getMessageType() {
-		return TYPE;
-	}
+    public int[] getPeng() {
+        return peng;
+    }
 
-	@Override
-	public final int getMessageId() {
-		return ID;
-	}
+    public void setPeng(int[] peng) {
+        this.peng = peng;
+    }
 
-	@Override
-	public Object toPbObject() {
-		Room.GameFanResult.Builder builder = Room.GameFanResult.newBuilder();
-		builder.setQueTou(getQueTou());
-		builder.addAllShunZi(toList(getShunZi()));
-		builder.addAllKeZi(toList(getKeZi()));
-		builder.addAllShouPai(toList(getShouPai()));
-		builder.addAllHuiErBian(toList(getHuiErBian()));
-		builder.addAllAnGang(toList(getAnGang()));
-		builder.addAllXiaoMingGang(toList(getXiaoMingGang()));
-		builder.addAllDaMingGang(toList(getDaMingGang()));
-		builder.addAllPeng(toList(getPeng()));
-		builder.addAllChi(toList(getChi()));
-		builder.setBaseFanType(getBaseFanType());
-		builder.setFanString(getFanString());
-		builder.setFan(getFan());
-		builder.setUserName(getUserName());
-		builder.setScore(getScore());
-		builder.setGuaFengXiaYu(getGuaFengXiaYu());
-		return builder.build();
-	}
+    /**
+     * 3个一组一组
+     */
+    public int[] getChi() {
+        return chi;
+    }
+
+    /**
+     * 3个一组一组
+     */
+    public void setChi(int[] chi) {
+        this.chi = chi;
+    }
+
+    public String getBaseFanType() {
+        return baseFanType;
+    }
+
+    public void setBaseFanType(String baseFanType) {
+        this.baseFanType = baseFanType;
+    }
+
+    public String getFanString() {
+        return fanString;
+    }
+
+    public void setFanString(String fanString) {
+        this.fanString = fanString;
+    }
+
+    public int getFan() {
+        return fan;
+    }
+
+    public void setFan(int fan) {
+        this.fan = fan;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    /**
+     * 改变值
+     */
+    public int getScore() {
+        return score;
+    }
+
+    /**
+     * 改变值
+     */
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getGuaFengXiaYu() {
+        return guaFengXiaYu;
+    }
+
+    public void setGuaFengXiaYu(int guaFengXiaYu) {
+        this.guaFengXiaYu = guaFengXiaYu;
+    }
+
+
+    @Override
+    public String toString() {
+        return "GameFanResult [queTou=" + queTou + ",shunZi=" + shunZi + ",keZi=" + keZi + ",shouPai=" + shouPai + "," +
+                "huiErBian=" + huiErBian + ",anGang=" + anGang + ",xiaoMingGang=" + xiaoMingGang + ",daMingGang=" +
+                daMingGang + ",peng=" + peng + ",chi=" + chi + ",baseFanType=" + baseFanType + ",fanString=" +
+                fanString + ",fan=" + fan + ",userName=" + userName + ",score=" + score + ",guaFengXiaYu=" +
+                guaFengXiaYu + ", ]";
+    }
+
+    @Override
+    public final int getMessageType() {
+        return TYPE;
+    }
+
+    @Override
+    public final int getMessageId() {
+        return ID;
+    }
+
+    @Override
+    public Object toPbObject() {
+        Room.GameFanResult.Builder builder = Room.GameFanResult.newBuilder();
+        builder.setQueTou(getQueTou());
+        builder.addAllShunZi(toList(getShunZi()));
+        builder.addAllKeZi(toList(getKeZi()));
+        builder.addAllShouPai(toList(getShouPai()));
+        builder.addAllHuiErBian(toList(getHuiErBian()));
+        builder.addAllAnGang(toList(getAnGang()));
+        builder.addAllXiaoMingGang(toList(getXiaoMingGang()));
+        builder.addAllDaMingGang(toList(getDaMingGang()));
+        builder.addAllPeng(toList(getPeng()));
+        builder.addAllChi(toList(getChi()));
+        String baseFanType = getBaseFanType();
+        if (baseFanType != null) {
+            builder.setBaseFanType(baseFanType);
+        } else {
+            builder.setBaseFanType("");
+        }
+        String fanString = getFanString();
+        if (fanString != null) {
+            builder.setFanString(fanString);
+        }else{
+            builder.setFanString("");
+        }
+        int fan = getFan();
+        builder.setFan(fan);
+        String userName = getUserName();
+        if (userName != null) {
+            builder.setUserName(getUserName());
+        }
+        builder.setScore(getScore());
+        builder.setGuaFengXiaYu(getGuaFengXiaYu());
+        return builder.build();
+    }
 }

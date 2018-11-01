@@ -1,8 +1,8 @@
 /Users/apple/work/ssa/sunyata-game/sunyata-game-state-manager/src/main/java/org/sunyata/game/state/manager/config/RandomUtils.java
 /Users/apple/work/ssa/sunyata-game/sunyata-game-state-manager/src/main/java/org/sunyata/game/state/manager/config/RedisConfig.java
-/Users/apple/work/ssa/sunyata-game/sunyata-game-state-manager/src/main/java/org/sunyata/game/state/manager/config/EnableOctopusState.java
 /Users/apple/work/ssa/sunyata-game/sunyata-game-state-manager/src/main/java/org/sunyata/game/state/manager/config/DefaultCommandService.java
+/Users/apple/work/ssa/sunyata-game/sunyata-game-state-manager/src/main/java/org/sunyata/game/state/manager/config/ComponentConfig.java
 /Users/apple/work/ssa/sunyata-game/sunyata-game-state-manager/src/main/java/org/sunyata/game/state/manager/config/DefaultServerConfigProperties.java
 /Users/apple/work/ssa/sunyata-game/sunyata-game-state-manager/src/main/java/org/sunyata/game/state/manager/config/RedisUserCacheService.java
 /Users/apple/work/ssa/sunyata-game/sunyata-game-state-manager/src/main/java/org/sunyata/game/state/manager/config/CommandStateConfig.java
-/Users/apple/work/ssa/sunyata-game/sunyata-game-state-manager/src/main/java/org/sunyata/game/state/manager/config/OctopusEvent.java
+/Users/apple/work/ssa/sunyata-game/sunyata-game-state-manager/src/main/java/org/sunyata/game/state/manager/config/EnableGameServer.java

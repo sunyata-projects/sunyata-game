@@ -9,7 +9,6 @@ import org.sunyata.game.majiang.core.models.majiang.actions.Action;
 import org.sunyata.game.majiang.core.models.majiang.actions.MajiangAction;
 import org.sunyata.game.majiang.core.models.majiang.actions.OperationWhen;
 import org.sunyata.game.majiang.core.models.message.OperationCPGH;
-import org.sunyata.game.majiang.core.models.message.OperationCPGHInfo;
 
 import java.util.List;
 
@@ -21,9 +20,9 @@ public class OutAfterOtherChuPaiAction implements MajiangAction {
     @Override
     public void convertToOperationCPGH(MajiangChapter chapter, OperationCPGH operationCPGH, CheckResult
             checkResult, Pai pai, int currentIndex) {
-        if (checkResult.getActionName().equals(OperationNames.OPT_OUT)) {
-            operationCPGH.add(new OperationCPGHInfo().setOpt(OperationNames.OPT_OUT), pai, currentIndex);
-        }
+//        if (checkResult.getActionName().equals(OperationNames.OPT_OUT)) {
+//            operationCPGH.add(new OperationCPGHInfo().setOpt(OperationNames.OPT_OUT), pai, currentIndex);
+//        }
     }
 
     @Override

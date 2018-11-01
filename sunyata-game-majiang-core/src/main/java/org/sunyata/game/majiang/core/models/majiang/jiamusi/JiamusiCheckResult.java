@@ -3,7 +3,7 @@
 //import org.sunyata.game.majiang.core.models.majiang.CheckResult;
 //
 ///**
-// * @author leo on 2016/10/31.
+// * @author leo on 2017/10/31.
 // */
 //public class JiamusiCheckResult extends CheckResult {
 //

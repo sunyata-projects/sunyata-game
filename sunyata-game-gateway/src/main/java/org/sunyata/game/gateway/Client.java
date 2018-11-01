@@ -53,7 +53,6 @@ public class Client {
     }
 
 
-
 //    private void checkMsg(Message msg) throws Exception {
 //        Message testMsg;
 //        try {

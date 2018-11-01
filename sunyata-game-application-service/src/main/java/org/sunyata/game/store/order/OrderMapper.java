@@ -32,6 +32,15 @@ public interface OrderMapper extends MapperInterface {
     @Select("select * from TradingOrder where id=#{id}")
     Order getOrder(@Param("id") String id);
 
+//    @Insert("insert into t_result(m_id,q_id)  \n" +
+//            "        values  \n" +
+//            "        <foreach collection=\"list\" item=\"item\" index=\"index\"  \n" +
+//            "            separator=\",\">  \n" +
+//            "            (#{m_id,jdbcType=INTEGER},#{item.id,jdbcType=INTEGER})  \n" +
+//            "        </foreach>  ")
+//
+//    int insertAll(@Param("list") ArrayList<Question> list, @Param("m_id") Integer m_id);
+
     @Insert("INSERT INTO TradingOrder(id,businessType,businessId,parameterString,orderStatusType,orderStatusTypeDesc," +
             "notes,createDateTime,totalPrice,userId) " +
             "VALUES(#{id},#{businessType},#{businessId},#{parameterString},#{orderStatusType},#{orderStatusTypeDesc}," +

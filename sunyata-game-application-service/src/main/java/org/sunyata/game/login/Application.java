@@ -6,14 +6,14 @@
 //import org.springframework.boot.autoconfigure.SpringBootApplication;
 //import org.springframework.boot.builder.SpringApplicationBuilder;
 //import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-//import org.sunyata.game.state.manager.config.EnableOctopusState;
+//import org.sunyata.game.state.manager.config.EnableGameServer;
 //
 //@SpringBootApplication
 //@EnableDiscoveryClient
 ////@EnableScheduling
 ////@EnableQuarkClient
 ////@EnableThriftClient
-//@EnableOctopusState
+//@EnableGameServer
 //@EnableGameServer
 //public class Application {
 //

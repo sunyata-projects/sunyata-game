@@ -122,14 +122,15 @@ public class OctopusPacketRawMessage implements OctopusPacketMessage {
         logger.info("ByteBuf.startIndex:{},WriterIndex:{}", buf.readerIndex(), buf.writerIndex());
         OctopusRawMessage rawMessage = getRawMessage();
         byte[] bytes = rawMessage.toBytes();
-        int length = 0;
-        if (bytes != null && bytes.length > 0) {
+        int length = bytes == null ? 0 : bytes.length;
+
+        if (length > 0) {
             buf
                     .writeInt(this.getMessageType())
                     .writeInt(this.getSourceServerId())
                     .writeInt(this.getDestServerId())
                     .writeInt(this.getDataId())
-                    .writeInt(bytes.length)
+                    .writeInt(length)
                     .writeBytes(bytes);
         } else {
             buf

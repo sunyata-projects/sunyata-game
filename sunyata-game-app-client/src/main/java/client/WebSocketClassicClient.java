@@ -43,9 +43,8 @@ import java.util.concurrent.atomic.AtomicLong;
 public final class WebSocketClassicClient {
 
     //CommandMessageManager commandMessageManager;
-    //static final String URL = System.getProperty("url", "ws://127.0.0.1:15002/websocket?token=tokenValuehahaha");
-    static final String URL = System.getProperty("url",
-            "ws://172.21.120.174:15002/websocket?token=tokenValuehahaha");
+    static final String URL = System.getProperty("url", "ws://127.0.0.1:15002/websocket?token=tokenValuehahaha");
+    //static final String URL = System.getProperty("url","ws://172.21.120.174:15002/websocket");
     private static AtomicLong serialCount = new AtomicLong();
     private static ApplicationContext applicationContext;
 

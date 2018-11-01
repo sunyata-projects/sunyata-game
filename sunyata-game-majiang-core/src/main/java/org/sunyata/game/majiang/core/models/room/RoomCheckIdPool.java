@@ -13,15 +13,15 @@ public class RoomCheckIdPool {
         return this;
     }
 
-    public int getStatus() {
-        return status;
+    public int getState() {
+        return state;
     }
 
-    public RoomCheckIdPool setStatus(int status) {
-        this.status = status;
+    public RoomCheckIdPool setState(int state) {
+        this.state = state;
         return this;
     }
 
     String id;
-    int status;
+    int state;
 }

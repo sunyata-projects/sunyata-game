@@ -21,11 +21,12 @@ import org.sunyata.game.service.ClientServerInfo;
 import org.sunyata.game.service.ServerLocation;
 
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
+ * @author leo
  */
+@SuppressWarnings("AlibabaClassMustHaveAuthor")
 @Component
 public final class AnyClientManager implements ApplicationContextAware {
     private static final int FRAME_TIME_SPAN = 2000;
@@ -127,69 +128,6 @@ public final class AnyClientManager implements ApplicationContextAware {
         this.applicationContext = applicationContext;
     }
 
-//
-//    public void onDisconnect(String serviceName, int serverId) {
-//        if (map.containsKey(generateKey(serviceName, serverId))) {
-//            map.remove(generateKey(serviceName, serverId));
-//        }
-//    }
-//
-//    public AnyClient create(ClientServerInfo key) throws Exception {
-//        AnyClientHandler anyClientHandler = new AnyClientHandler(() -> {
-//            try {
-//                runConnectCallback(key);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        });
-//        applicationContext.getAutowireCapableBeanFactory().autowireBean(anyClientHandler);
-//        AnyClient client = new AnyClient(key, anyClientHandler);
-//        anyClientHandler.setClient(client);
-////        int i = atomicInteger.incrementAndGet();
-////        logger.info("anyClient实例数量:{}", i);
-//        return client;
-//    }
-
-    //    public void forwardMessageWithNoCheck(String serviceName, Integer serverId, OctopusPacketMessage msg) {
-//        AnyClient client = map.get(generateKey(serviceName, serverId));
-//        logger.info("发送消息:CommandId:{}", msg.getRawMessage().getCmd());
-//        client.writeAndFlush(msg);
-//        logger.info("发送消息完毕:CommandId:{}", msg.getRawMessage().getCmd());
-//    }
-    //private final ReadWriteLock keyLock = new ReentrantReadWriteLock(true);
-
-//    AnyClient getClient(ClientServerInfo key) throws Exception {
-//        AnyClient client = map.get(key.toString());
-//        if (client != null && client.isActive()) {
-//            return client;
-//        } else {
-//            map.remove(key.toString());
-//        }
-//        Lock lock = keyLock.readLock();
-//        lock.lock();
-//        try {
-//            AnyClient ret = map.get(key.toString());
-//            if (ret == null) {
-//                client = create(key);
-//                map.put(key.toString(), client);
-//                client.connect();
-//                client.setConnect(true);
-//                return client;
-//            } else if (!ret.isActive()) {
-//                map.remove(key.toString());
-//                return null;
-//            } else {
-//                return ret;
-//            }
-//        } catch (Exception ex) {
-//            map.remove(key.toString());
-//            return null;
-//        } finally {
-//            lock.unlock();
-//        }
-//    }
-
-    AtomicInteger atomicInteger = new AtomicInteger(0);
 
     public void forwardMessage(ClientServerInfo clientServerInfo, OctopusPacketMessage msg) throws Exception {
         if (clientServerInfo == null) {
@@ -203,12 +141,10 @@ public final class AnyClientManager implements ApplicationContextAware {
             logger.error("借取时发生错误", e);
         }
         try {
-//            logger.info("发送消息:CommandId:{}", msg.getRawMessage().getCmd());
+
             if (client != null) {
                 client.writeAndFlush(msg);
             }
-//            logger.info("发送消息完毕:CommandId:{},msgCount:{}", msg.getRawMessage().getCmd(), atomicInteger
-//                    .incrementAndGet());
         } finally {
             try {
                 objectPool.returnObject(clientServerInfo, client);
@@ -243,7 +179,7 @@ public final class AnyClientManager implements ApplicationContextAware {
 //    }
 
 
-    public void sendMessageToUser(int userIdInGateway, int destServerId, String commandId, byte[] bytes) throws
+    public void sendMessageToUserByInnerGatewayServer(int userIdInGateway, int destServerId, String commandId, byte[] bytes) throws
             Exception {
         OctopusPacketMessage toUserPacketMessage = MessageFactory.createToUserPacketMessage(
                 userIdInGateway,
@@ -255,7 +191,6 @@ public final class AnyClientManager implements ApplicationContextAware {
         forwardMessage(randomInnerGatewayServerInfo, toUserPacketMessage);
     }
 
-
     public void sendErrorMessageToUser(int userIdInGateway, int destServerId, int errorCode) throws
             Exception {
         OctopusPacketMessage toUserPacketMessage = MessageFactory.createToUserErrorPacketMessage(
@@ -266,24 +201,30 @@ public final class AnyClientManager implements ApplicationContextAware {
         forwardMessage(randomInnerGatewayServerInfo, toUserPacketMessage);
     }
 
-    public void sendSysMessage(String destServiceName, int destServerId, int userIdInGateway, String commandId,
-                               JsonBodySerializer
-                                       serializer) throws
-            Exception {
-        OctopusPacketMessage toSystemPacketJsonBodyMessage = MessageFactory.createToSystemPacketJsonBodyMessage
-                (userIdInGateway, serverConfigProperties.getServerId(), commandId, serializer);
-        ClientServerInfo descClientServerInfo = serverLocation.getDescClientServerInfo(destServerId, destServiceName);
-//        this.checkConnect(descClientServerInfo.getServiceName(), descClientServerInfo.getServerId(),
-//                descClientServerInfo.getServerAddress(), descClientServerInfo.getServerPort(),
-//                () -> {
-        forwardMessage(descClientServerInfo, toSystemPacketJsonBodyMessage);
-        //});
-    }
+//    public void sendSysMessage(String destServiceName, int destServerId, int userIdInGateway, String commandId,
+//                               JsonBodySerializer
+//                                       serializer) throws
+//            Exception {
+//        OctopusPacketMessage toSystemPacketJsonBodyMessage = MessageFactory.createToSystemPacketJsonBodyMessage
+//                (userIdInGateway, serverConfigProperties.getServerId(), commandId, serializer);
+//        ClientServerInfo descClientServerInfo = serverLocation.getDescClientServerInfo(destServerId, destServiceName);
+////        this.checkConnect(descClientServerInfo.getServiceName(), descClientServerInfo.getServerId(),
+////                descClientServerInfo.getServerAddress(), descClientServerInfo.getServerPort(),
+////                () -> {
+//        forwardMessage(descClientServerInfo, toSystemPacketJsonBodyMessage);
+//        //});
+//    }
 
 
     public void sendSysMessageByInnerGateway(String commandId, JsonBodySerializer serializer) throws Exception {
+        sendSysMessageByInnerGateway(commandId, serializer, -1);
+    }
+
+    public void sendSysMessageByInnerGateway(String commandId, JsonBodySerializer serializer, int destServerId) throws
+            Exception {
         OctopusPacketMessage toSystemPacketJsonBodyMessage = MessageFactory.createToSystemPacketJsonBodyMessage
                 (-1, serverConfigProperties.getServerId(), commandId, serializer);
+        toSystemPacketJsonBodyMessage.setDestServerId(destServerId);
         ClientServerInfo randomInnerGatewayServerInfo = serverLocation.getRandomInnerGatewayServerInfo();
         forwardMessage(randomInnerGatewayServerInfo, toSystemPacketJsonBodyMessage);
     }

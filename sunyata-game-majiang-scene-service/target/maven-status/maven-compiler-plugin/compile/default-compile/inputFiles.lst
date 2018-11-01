@@ -1,9 +1,10 @@
+/Users/apple/work/ssa/sunyata-game/sunyata-game-majiang-scene-service/src/main/java/org/sunyata/game/majiang/scene/commands/StartChapterCommand.java
 /Users/apple/work/ssa/sunyata-game/sunyata-game-majiang-scene-service/src/main/java/org/sunyata/game/majiang/scene/commands/JoinRoomToSceneCommand.java
 /Users/apple/work/ssa/sunyata-game/sunyata-game-majiang-scene-service/src/main/java/org/sunyata/game/majiang/scene/commands/TestCommand.java
 /Users/apple/work/ssa/sunyata-game/sunyata-game-majiang-scene-service/src/main/java/org/sunyata/game/majiang/scene/Application.java
-/Users/apple/work/ssa/sunyata-game/sunyata-game-majiang-scene-service/src/main/java/org/sunyata/game/majiang/scene/commands/UserOfflineEventCommand.java
 /Users/apple/work/ssa/sunyata-game/sunyata-game-majiang-scene-service/src/main/java/org/sunyata/game/majiang/scene/sdfsd.java
 /Users/apple/work/ssa/sunyata-game/sunyata-game-majiang-scene-service/src/main/java/org/sunyata/game/majiang/scene/config/DruidConfiguration.java
+/Users/apple/work/ssa/sunyata-game/sunyata-game-majiang-scene-service/src/main/java/org/sunyata/game/majiang/scene/commands/UserOfflineRoomEventCommand.java
 /Users/apple/work/ssa/sunyata-game/sunyata-game-majiang-scene-service/src/main/java/org/sunyata/game/majiang/scene/commands/OptCPGHRetCommand.java
 /Users/apple/work/ssa/sunyata-game/sunyata-game-majiang-scene-service/src/main/java/org/sunyata/game/majiang/scene/CommandMessageManager.java
 /Users/apple/work/ssa/sunyata-game/sunyata-game-majiang-scene-service/src/main/java/org/sunyata/game/majiang/scene/commands/OptOutRetCommand.java

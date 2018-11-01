@@ -1,7 +1,7 @@
 package org.sunyata.game.majiang.core.models;
 
 /**
- * @author leo on 2016/12/24.
+ * @author leo on 2017/12/24.
  */
 public class UserInfo {
     private int userId;

@@ -25,7 +25,6 @@ org/sunyata/game/business/FundLockKeys.class
 org/sunyata/game/CommandMessageManager.class
 org/sunyata/game/order/models/Product.class
 org/sunyata/game/store/user/UserMapper.class
-org/sunyata/game/commands/CreateRoomCommand.class
 org/sunyata/game/order/commands/CreateOrderCommand.class
 org/sunyata/game/order/services/ProductDomainService.class
 org/sunyata/game/login/AsyncService.class

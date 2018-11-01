@@ -1,6 +1,7 @@
 package org.sunyata.game.majiang.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.sunyata.game.ServerConfigProperties;
 import org.sunyata.game.client.AnyClientManager;
 import org.sunyata.game.contract.Commands;
 import org.sunyata.game.majiang.core.message.UserJoinGameJsonBodySerializer;
@@ -119,6 +120,9 @@ public class RoomImpi extends Room {
         });
     }
 
+    @Autowired
+    ServerConfigProperties serverConfigProperties;
+
     /**
      * 玩家进入游戏
      */
@@ -126,8 +130,9 @@ public class RoomImpi extends Room {
         checkThread();
         sceneUser.setJoinGame(true);
         //广播进行房间事件
-        anyClientManager.sendSysMessageByInnerGateway(Commands.userJoinGame, new UserJoinGameJsonBodySerializer()
-                .setRoomId(roomInfo.getRoomId()).setUserId(sceneUser.getUserId()));
+        anyClientManager.sendSysMessageByInnerGateway(Commands.userJoinGameEvent, new UserJoinGameJsonBodySerializer()
+                .setRoomId(roomInfo.getRoomId()).setSceneServerId(serverConfigProperties.getServerId()).setUserId
+                        (sceneUser.getUserId()));
         //同步游戏信息到客户端
         sceneUser.sendMessage(roomInfo.toMessage(sceneUser.getLocationIndex()));
         //通知其他玩家
@@ -157,7 +162,8 @@ public class RoomImpi extends Room {
         chapter.cpghRet(user.getLocationIndex(), msg.getOpt(), msg.getChi());
     }
 
-    public void chapterStart(SceneUser user) throws InstantiationException, IllegalAccessException {
+    public void chapterStart(SceneUser user) throws InstantiationException, IllegalAccessException,
+            InterruptedException {
         checkThread();
         bossClient.writeAndFlush(new ChapterStartMsg());
         if (roomInfo.isFull()) {
@@ -175,11 +181,13 @@ public class RoomImpi extends Room {
                 chapter.startNext();
             } else {
                 //user.sendMessage(new GameChapterStartRet());
-                log.error("已经开始了！user:{},room:{}", user.getUserId(), roomInfo);
+                log.error("已经开始了！room:{}", roomInfo);
             }
         } else {
-            //user.sendMessage(new GameChapterStartRet());
-            user.noticeError("room.notEnoughUser");
+            if (user != null) {
+                //user.sendMessage(new GameChapterStartRet());
+                user.noticeError("room.notEnoughUser");
+            }
         }
 
 
@@ -230,13 +238,20 @@ public class RoomImpi extends Room {
 
         bossClient.writeAndFlush(msg);
 
-        if (majiangChapter.getChapterNums() >= config.getInt(RoomConfigInfo.CHAPTER_MAX)) {
+        if (majiangChapter.getChapterNums() >= config.getInt(RoomConfigInfo.CHAPTER_NUMS)) {
             //房间结束
             this.setEnd(true);
             RoomEndMsg m = new RoomEndMsg();
             m.setCrateUserId(getRoomInfo().getCreateUserId());
             m.setRoomId(getRoomInfo().getRoomId());
             bossClient.writeAndFlush(m);
+        } else {
+            try {
+                Thread.sleep(3000);
+                chapterStart(null);
+            } catch (Exception e) {
+                log.error("error:{}", e);
+            }
         }
     }
 

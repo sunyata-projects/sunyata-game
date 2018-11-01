@@ -7,7 +7,7 @@ import org.sunyata.game.majiang.core.models.SceneUser;
 import org.sunyata.game.majiang.core.models.message.OperationFaPaiRet;
 
 /**
- * @author leo on 2016/10/31.
+ * @author leo on 2017/10/31.
  */
 @Component(Commands.optFaPaiRet)
 public class OperationFaPaiRetHandlerImpi implements MessageHandler<OperationFaPaiRet, SceneUser> {

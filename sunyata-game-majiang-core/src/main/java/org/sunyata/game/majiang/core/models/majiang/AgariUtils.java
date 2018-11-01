@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 /**
- * @author leo on 2016/12/29.
+ * @author leo on 2017/12/29.
  */
 public class AgariUtils {
 
@@ -76,22 +76,9 @@ public class AgariUtils {
         }).toArray(FanResult[]::new);
     }
 
-    /**
-     * 是否胡牌会儿
-     */
-    public static boolean isHuiErHuPai(ArrayList<Pai> allPai, Collection<Pai> shouPai, Pai huiErPai[]) {
-        if (huiErPai == null || !checkContains(shouPai, huiErPai)) {
-            return isHuPai(shouPai);
-        } else {
-            //会儿需要当做任何牌，现在只能遍历
-            int[] pos = new int[14];
-            return checkHuiEr(pos, allPai, shouPai, huiErPai) != null;
-        }
-    }
 
-    private static Map.Entry<int[], int[]> checkHuiEr(
-            int[] pos, ArrayList<Pai> allPai, Collection<Pai> shouPai, Pai[] huiErPai
-    ) {
+    private static Map.Entry<int[], int[]> checkHuiEr(int[] pos, ArrayList<Pai> allPai, Collection<Pai> shouPai,
+                                                      Pai[] huiErPai) {
         ArrayList<Pai> curShouPai = new ArrayList<>(shouPai);
         int[] curPaiIndexs = new int[shouPai.size()];
 
@@ -128,7 +115,8 @@ public class AgariUtils {
                                                                     allPai.get(k4).getIndex()
                                                             );
                                                             if (ints != null) {
-                                                                return new AbstractMap.SimpleImmutableEntry<>(ints, new int[]{i, j, k, k1, k2, k3, k4});
+                                                                return new AbstractMap.SimpleImmutableEntry<>(ints,
+                                                                        new int[]{i, j, k, k1, k2, k3, k4});
                                                             }
                                                         }
                                                     } else {
@@ -143,7 +131,8 @@ public class AgariUtils {
                                                                 allPai.get(k3).getIndex()
                                                         );
                                                         if (ints != null) {
-                                                            return new AbstractMap.SimpleImmutableEntry<>(ints, new int[]{i, j, k, k1, k2, k3});
+                                                            return new AbstractMap.SimpleImmutableEntry<>(ints, new
+                                                                    int[]{i, j, k, k1, k2, k3});
                                                         }
                                                     }
                                                 }
@@ -158,7 +147,8 @@ public class AgariUtils {
                                                         allPai.get(k2).getIndex()
                                                 );
                                                 if (ints != null) {
-                                                    return new AbstractMap.SimpleImmutableEntry<>(ints, new int[]{i, j, k, k1, k2});
+                                                    return new AbstractMap.SimpleImmutableEntry<>(ints, new int[]{i,
+                                                            j, k, k1, k2});
                                                 }
                                             }
                                         }
@@ -262,4 +252,17 @@ public class AgariUtils {
         int[] ret = AgariIndex.agari(n);
         return !ArrayUtils.isEmpty(ret);
     }
+    /**
+     * 是否胡牌会儿
+     */
+    public static boolean isHuiErHuPai(ArrayList<Pai> allPai, Collection<Pai> shouPai, Pai huiErPai[]) {
+        if (huiErPai == null || !checkContains(shouPai, huiErPai)) {
+            return isHuPai(shouPai);
+        } else {
+            //会儿需要当做任何牌，现在只能遍历
+            int[] pos = new int[14];
+            return checkHuiEr(pos, allPai, shouPai, huiErPai) != null;
+        }
+    }
+
 }

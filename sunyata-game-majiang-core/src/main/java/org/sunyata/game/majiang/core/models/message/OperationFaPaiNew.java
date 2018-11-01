@@ -2,9 +2,6 @@ package org.sunyata.game.majiang.core.models.message;
 
 import org.sunyata.game.contract.Commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 通知客户端"吃碰杠胡"
  * <p/>
@@ -21,7 +18,7 @@ public class OperationFaPaiNew extends OperationCPGH {
      */
 //    private int index;
 //    private int pai;
-    private List<OperationCPGHInfo> operationCPGHInfos = new ArrayList<>();
+//    private List<OperationCPGHInfo> operationCPGHInfos = new ArrayList<>();
 
 
 //    public OperationFaPaiNew(OperationFaPai operationFaPai) {
@@ -38,9 +35,9 @@ public class OperationFaPaiNew extends OperationCPGH {
 //    }
 
 
-    public List<OperationCPGHInfo> getOperationCPGHInfos() {
-        return operationCPGHInfos;
-    }
+//    public List<OperationCPGHInfo> getOperationCPGHInfos() {
+//        return operationCPGHInfos;
+//    }
 
     //	public OperationCPGH setOperationCPGHInfos(List<OperationCPGHInfo> operationCPGHInfos) {
 //		this.operationCPGHInfos = operationCPGHInfos;
@@ -113,16 +110,16 @@ public class OperationFaPaiNew extends OperationCPGH {
     /**
      * 位置
      */
-    public int getIndex() {
-        return index;
-    }
-
-    /**
-     * 位置
-     */
-    public void setIndex(int index) {
-        this.index = index;
-    }
+//    public int getIndex() {
+//        return index;
+//    }
+//
+//    /**
+//     * 位置
+//     */
+//    public void setIndex(int index) {
+//        this.index = index;
+//    }
 
     /**
      * 3个一组一组
@@ -169,10 +166,10 @@ public class OperationFaPaiNew extends OperationCPGH {
 //	public void setPai(int pai) {
 //		this.pai = pai;
 //	}
-    @Override
-    public String toString() {
-        return "OperationCPGH [index=" + index + "]";
-    }
+//    @Override
+//    public String toString() {
+//        return "OperationCPGH [index=" + index + "]";
+//    }
 
     @Override
     public final int getMessageType() {

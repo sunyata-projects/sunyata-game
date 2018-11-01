@@ -1,7 +1,11 @@
 package org.sunyata.game.majiang.core.models.message;
 
-public class ChapterStartMsg{
-    public static final int ID = RoomEndMsg.ID + 1;
+import org.sunyata.game.contract.Commands;
+import org.sunyata.game.server.message.AbstractMessage;
+
+public class ChapterStartMsg extends AbstractMessage{
+    public static final int TYPE = Integer.parseInt(Commands.gameChapterStart);
+    public static final int ID = 0;
 
     private int roomId;
 
@@ -21,4 +25,15 @@ public class ChapterStartMsg{
                 "roomId=" + roomId +
                 '}';
     }
+
+    @Override
+    public final int getMessageType() {
+        return TYPE;
+    }
+
+    @Override
+    public final int getMessageId() {
+        return ID;
+    }
+
 }

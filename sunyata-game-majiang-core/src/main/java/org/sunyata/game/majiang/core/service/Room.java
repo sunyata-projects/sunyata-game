@@ -3,13 +3,13 @@ package org.sunyata.game.majiang.core.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sunyata.game.majiang.core.MessageHandler;
-import org.sunyata.game.majiang.core.models.room.RoomConfigInfo;
-import org.sunyata.game.majiang.core.models.room.RoomInfo;
 import org.sunyata.game.majiang.core.models.SceneUser;
 import org.sunyata.game.majiang.core.models.majiang.ChapterEndResult;
 import org.sunyata.game.majiang.core.models.majiang.MajiangChapter;
 import org.sunyata.game.majiang.core.models.message.VoteDelSelectRet;
 import org.sunyata.game.majiang.core.models.message.VoteDelStart;
+import org.sunyata.game.majiang.core.models.room.RoomConfigInfo;
+import org.sunyata.game.majiang.core.models.room.RoomInfo;
 import org.sunyata.game.server.message.Message;
 
 import java.util.HashMap;
@@ -60,6 +60,7 @@ public abstract class Room {
                 handler.handler(message, sceneUser);
             } catch (Exception e) {
                 e.printStackTrace();
+                sceneUser.noticeError("内部错误");
             }
         });
     }
@@ -128,7 +129,8 @@ public abstract class Room {
         }
     }
 
-    public abstract void endChapter(ChapterEndResult endResult, MajiangChapter majiangChapter);
+    public abstract void endChapter(ChapterEndResult endResult, MajiangChapter majiangChapter) throws
+            IllegalAccessException, InterruptedException, InstantiationException;
 
     public boolean isStart() {
         return roomInfo.isStart();

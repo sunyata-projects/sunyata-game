@@ -5,21 +5,27 @@ import java.util.ArrayList;
 /**
  * 发牌的池子
  *
- * @author leo on 2016/11/4.
+ * @author leo on 2017/11/4.
  */
 public interface PaiPoolInterface {
 
     void start();
 
+    void mockCard();
+
+    void dispatchCard();
+
+    void disorder();
+
     void clear();
 
-    Pai get(int index);
+//    Pai get(int index);
 
     int size();
 
-    Pai getFreePai();
+    Pai getFreePai(int locationIndex);
 
-    Pai getFreeGangPai();
+    Pai getFreeGangPai(int locationIndex);
 
 
     void faPai(int index, UserPlace userPlace);
@@ -29,6 +35,5 @@ public interface PaiPoolInterface {
 
     Pai[] getHuiEr();
 
-    void onFaPaiEnd();
-
+    void onFaPaiEnd(MajiangChapter chapter);
 }

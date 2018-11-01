@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 /**
  * 牌局结束结果集
  *
- * @author leo on 2016/11/4.
+ * @author leo on 2017/11/4.
  */
 public class ChapterEndResult {
     private boolean isHuPai;
@@ -55,22 +55,40 @@ public class ChapterEndResult {
 
 
 
-    public void excuteScore(int score) {
-        for (int i = 0; i < userPaiInfos.length; i++) {
-            userPaiInfos[i].setFan(score);
-        }
-        if (fangPaoIndex == -1) {
-            for (int i = 0; i < userPaiInfos.length; i++) {
-                if (i != huPaiIndex) {
-                    userPaiInfos[i].setScore(-score);
-                }
-            }
-            userPaiInfos[huPaiIndex].setScore(score * 3);
-        } else {
-            userPaiInfos[fangPaoIndex].setScore(-score);
-            userPaiInfos[huPaiIndex].setScore(score);
-        }
-    }
+//    public void excuteScore(int score) {
+//        for (int i = 0; i < userPaiInfos.length; i++) {
+//            userPaiInfos[i].setFan(score);
+//        }
+//        if (fangPaoIndex == -1) {
+//            for (int i = 0; i < userPaiInfos.length; i++) {
+//                if (i != huPaiIndex) {
+//                    userPaiInfos[i].setScore(-score);
+//                }
+//            }
+//            userPaiInfos[huPaiIndex].setScore(score * 3);
+//        } else {
+//            userPaiInfos[fangPaoIndex].setScore(-score);
+//            userPaiInfos[huPaiIndex].setScore(score);
+//        }
+//    }
+//    public void excuteScore() {
+//        int score = getFanNums();
+//        for (int i = 0; i < userPaiInfos.length; i++) {
+//            userPaiInfos[i].setFan(score);
+//        }
+//        if (fangPaoIndex == -1) {
+//            for (int i = 0; i < userPaiInfos.length; i++) {
+//                if (i != huPaiIndex) {
+//                    userPaiInfos[i].setScore(-score);
+//                }
+//            }
+//            userPaiInfos[huPaiIndex].setScore(score * 3);
+//        } else {
+//            userPaiInfos[fangPaoIndex].setScore(-score);
+//            userPaiInfos[huPaiIndex].setScore(score);
+//        }
+//
+//    }
 
     public GameChapterEnd toMessage() {
         GameChapterEnd m = new GameChapterEnd();

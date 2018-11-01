@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @author leo on 2016/11/4.
+ * @author leo on 2017/11/4.
  */
 public class UserPaiInfo {
     private ArrayList<Pai> shouPai = new ArrayList<>();
@@ -59,8 +59,9 @@ public class UserPaiInfo {
     }
 
     @SuppressWarnings("unchecked")
-    public UserPaiInfo(ArrayList<Pai> allPai, Pai[] huiErPai, UserPlace userPlace, boolean isHuPai, boolean isZhuang, boolean isZiMo) {
-        shouPai = (ArrayList<Pai>) userPlace.getShouPai().clone();
+    public UserPaiInfo(ArrayList<Pai> allPai, Pai[] huiErPai, UserPlace userPlace, boolean isHuPai, boolean isZhuang,
+                       boolean isZiMo) {
+        shouPai = (ArrayList<Pai>) userPlace.getShouPaiList().clone();
 
         anGang = userPlace.getAnGang().stream().map(Map.Entry::getValue)
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -105,7 +106,7 @@ public class UserPaiInfo {
         if (isHuPai) {
 
             if (maxFanResult != null) {
-                m.setBaseFanType(maxFanResult.getBaseFanType().name);
+                m.setBaseFanType(maxFanResult.getBaseFanName());
 
                 m.setFanString(maxFanResult.getFanString());
                 m.setHuiErBian(maxFanResult.getHuiErBian());
@@ -181,6 +182,22 @@ public class UserPaiInfo {
 
     public ArrayList<Pai[]> getChi() {
         return chi;
+    }
+
+    List<Pai> chiPais = null;
+
+    public List<Pai> getChiPais() {
+        if (chiPais == null) {
+            chiPais = new ArrayList<>();
+        }
+        if (chi != null) {
+            for (Pai[] paiArray : chi) {
+                for (Pai pai : paiArray) {
+                    chiPais.add(pai);
+                }
+            }
+        }
+        return chiPais;
     }
 
     public ArrayList<Pai> getOut() {

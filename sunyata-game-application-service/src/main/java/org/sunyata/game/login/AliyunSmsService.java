@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
  * 短信通知： 使用同一个签名和同一个短信模板ID，对同一个手机号码发送短信通知，支持50条/日；
  * 推广短信：使用同一个签名和同一个短信模板ID，对同一个手机号码发送短信通知，支持50条/日；
  *
- * @author leo on 2016/11/21.
+ * @author leo on 2017/11/21.
  */
 @Service
 public class AliyunSmsService {

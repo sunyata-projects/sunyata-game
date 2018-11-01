@@ -1,7 +1,6 @@
 org/sunyata/game/inner/gateway/InnerGatewayServer.class
 org/sunyata/game/inner/gateway/MessageRouteProcessor.class
 org/sunyata/game/inner/gateway/Client.class
-org/sunyata/game/inner/gateway/commands/LoginEventHandler.class
 org/sunyata/game/inner/gateway/Application.class
 org/sunyata/game/inner/gateway/ApplicationBootStrap.class
 org/sunyata/game/inner/gateway/InnerGatewayServerHandler.class

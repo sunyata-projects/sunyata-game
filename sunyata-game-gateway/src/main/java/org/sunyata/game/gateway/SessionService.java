@@ -15,8 +15,6 @@ import org.sunyata.game.server.message.OctopusPacketMessage;
 import org.sunyata.game.service.ClientServerInfo;
 import org.sunyata.game.service.ServerLocation;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.concurrent.locks.ReentrantLock;
 
 @Component
@@ -45,21 +43,18 @@ public class SessionService {
         this.userArray = new User[1024];
     }
 
-    public Session<User> reg(ChannelHandlerContext ctx) throws FileNotFoundException, IOException {
+    public Session<User> reg(ChannelHandlerContext ctx) throws Exception {
         final ReentrantLock lock = this.lock;
         lock.lock();
         try {
-            int id = idPool.generateId();
-            User user = new User((short) id, ctx.channel());
+            short id = idPool.generateId();
+            User user = new User(id, ctx.channel());
             Session<User> session = new Session<>(ctx.channel());
             session.set(user);
 
             userArray[id] = user;
             log.info("注册Session:{}", id);
             return session;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         } finally {
             lock.unlock();
         }

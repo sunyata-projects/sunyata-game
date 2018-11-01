@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Created by leo on 17/11/27.
@@ -29,11 +30,19 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
     protected int USER_NUMS = 4;
     protected Rules rules;
     protected Room room;
+    private OperationFaPaiNew prevFaPai;
+
+    @Override
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
+
     protected PaiPoolInterface paiPool;
     protected ComputeFanInterface computeFan;
+    private JudgeHuService judgeHuService;
     protected Pai[] huiEr = null;
 
-    protected int zhuangIndex;//庄index 0 东 1南 2西 3北 逆时针顺序
+    protected int zhuangIndex = 0;//庄index 0 东 1南 2西 3北 逆时针顺序
     protected int quanIndex;//圈index 0 东 1南 2西 3北 逆时针顺序
     protected GameChapterEnd gameChapterEnd;
     protected int chapterNums;//局数, 0开始
@@ -76,6 +85,11 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
     }
 
     @Override
+    public OperationFaPaiNew getOperationPrevFaPai() {
+        return prevFaPai;
+    }
+
+    @Override
     public boolean getOperationFaPaiIsGang() {
         return operationFaPaiIsGang;
     }
@@ -90,14 +104,15 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
     }
 
     public AbstractMajiangChapter(Room roomInfo, Rules rule, PaiPoolInterface paiPool, ComputeFanInterface
-            computeFan) {
+            computeFan, JudgeHuService judgeHuService) {
         this.rules = rule;
         this.paiPool = paiPool;
         this.room = roomInfo;
         this.computeFan = computeFan;
+        this.judgeHuService = judgeHuService;
 
         for (int i = 0; i < rules.getUserMax(); i++) {
-            userPlaces[i] = new UserPlace();
+            userPlaces[i] = new UserPlace(judgeHuService);
             userPlaces[i].setLocationIndex(i);
         }
 
@@ -125,6 +140,7 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
 
     @Override
     public void start() {
+        clear();
         //this.rules.rest();
         gameChapterEnd = null;
         isStart = true;
@@ -137,16 +153,17 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
             paiPool.faPai(i, userPlaces[i]);
         }
 
-        paiPool.onFaPaiEnd();
+        paiPool.onFaPaiEnd(this);
         huiEr = paiPool.getHuiEr();
         //发牌完毕！
-        changeCurrentIndex(0);
+        changeCurrentIndex(zhuangIndex);
     }
 
     public void startNext() throws IllegalAccessException, InstantiationException {
         faPai(true, false);
         logger.debug("发牌完毕！{}", this);
     }
+
     /**
      * 去下一个玩家
      */
@@ -162,7 +179,7 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
             huangPai();
             return;
         }
-        Pai pai = isGang ? paiPool.getFreeGangPai() : paiPool.getFreePai();
+        Pai pai = isGang ? paiPool.getFreeGangPai(currentIndex) : paiPool.getFreePai(currentIndex);
         if (pai == null) {
             huangPai();
             logger.info("黄牌了,娘亲");
@@ -182,7 +199,9 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
                 this.actionMap, userPlace, pai,
                 currentIndex, sequence);
         for (CheckResult result : checkResults) {
-            MajiangActionManager.convertToOperationCPGH(this, actionMap, operationFaPai, result, pai, currentIndex);
+            MajiangActionManager.convertToOperationCPGH(OperationWhen.chuPaiAfterFaPai, this, actionMap,
+                    operationFaPai, result, pai,
+                    currentIndex);
         }
 
         //根据情况发送消息，初始化不用，因为后面同步场景会同步操作到客户端
@@ -210,9 +229,11 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
         if (locationIndex != operationFaPai.getIndex()) {
             throw new RuntimeException("错误的操作用户:" + locationIndex + ",实际上应该是:" + operationFaPai.getIndex());
         }
+        this.prevFaPai = this.operationFaPai;
         this.operationFaPai = null;
         UserPlace userPlace = userPlaces[locationIndex];
         getAction(OperationWhen.chuPaiAfterFaPai, opt).processAction(this, userPlace, pai, locationIndex, null);
+        this.prevFaPai = null;
     }
 
     public void cpghRet(int locationIndex, String opt, int[] chi) throws Exception {
@@ -289,6 +310,7 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
         }
         checkResults.clear();
         operationCPGH = null;
+        userPlaces[waitCurrentIndex].clearOutingPai();
         waitCurrentIndex = -1;
         currentChuPai = null;
         cpghCheckResult = null;
@@ -296,15 +318,26 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
 
     public void nextCPGHOrStartNext() throws InstantiationException, IllegalAccessException {
         if (checkResults.size() > 0) {
+            List<CheckResult> results = new ArrayList<>();
             CheckResult checkResult = checkResults.remove(0);
+            results.add(checkResult);
+            List<CheckResult> collect = checkResults.stream().filter(p -> p.getLocationIndex() == checkResult
+                    .getLocationIndex()).collect(Collectors.toList());
+            if (collect != null) {
+                results.addAll(collect);
+                checkResults.removeAll(collect);
+            }
+
             operationCPGH = new OperationCPGH();
-
-            MajiangActionManager.convertToOperationCPGH(this, actionMap, operationCPGH, checkResult, getCurrentChuPai()
-                    , currentIndex);
-
+            for (CheckResult checkResultItem : results) {
+                MajiangActionManager.convertToOperationCPGH(OperationWhen.whenOtherChuPai, this, actionMap,
+                        operationCPGH, checkResultItem, getCurrentChuPai(), currentIndex);
+            }
             operationCPGH.setIndex(checkResult.getLocationIndex());
 
-            this.cpghCheckResult = checkResult;
+            CheckResult chiCheckResult = results.stream().filter(p -> p.getActionName().equalsIgnoreCase(OperationNames
+                    .OPT_CHI)).findFirst().orElse(null);
+            this.cpghCheckResult = chiCheckResult == null ? checkResult : chiCheckResult;
 
             changeCurrentIndex(checkResult.getLocationIndex());
 
@@ -314,8 +347,7 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
         } else {
             changeCurrentIndex(waitCurrentIndex);
             userPlaces[currentIndex].addOut(currentChuPai);
-
-             stopCPGH(true);
+            stopCPGH(true);
             goNext();
         }
     }
@@ -337,7 +369,8 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
             throw new RuntimeException("错误的吃牌:" + Arrays.toString(chi));
         }
         List<Pai[]> getPais = new ArrayList<>();
-        getPais.add(cpghCheckResult.getPais());
+        List<Pai[]> pais1 = cpghCheckResult.getPais();
+        getPais.addAll(pais1);
         boolean isCheckOk = false;
         CHI_OUT:
         for (int i = 0; i < getPais.size(); i++) {
@@ -375,7 +408,8 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
         faPai(true, true);
     }
 
-    public void huPai(UserPlace userPlace, int locationIndex, Pai pai, int fangPaoIndex, boolean isGangShangHua) {
+    public void huPai(UserPlace userPlace, int locationIndex, Pai pai, int fangPaoIndex, boolean isGangShangHua)
+            throws IllegalAccessException, InstantiationException {
         if (fangPaoIndex > -1) {
             userPlace.addShouPai(pai);
         }
@@ -399,12 +433,11 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
         }
     }
 
-    protected void end(int huPaiLocationIndex, int fangPaoIndex, boolean isGangShangHua) {
-        computeFan = computeFan.build(this, huPaiLocationIndex, fangPaoIndex, isGangShangHua);
+    protected void end(int huPaiLocationIndex, int fangPaoIndex, boolean isGangShangHua) throws
+            IllegalAccessException, InstantiationException {
+        computeFan = computeFan.build(this, huPaiLocationIndex, fangPaoIndex, isGangShangHua,judgeHuService);
         ChapterEndResult endResult = computeFan.compute();
         //开始处理扎码
-
-
         if (endResult.isHuPai()) {
             if (zhuangIndex != huPaiLocationIndex) {
                 zhuangIndex = (zhuangIndex + 1) % rules.getUserMax();
@@ -413,14 +446,12 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
                 }
             }
 
-            int zaMaScore = computeFan.zaMa();
+            //int zaMaScore = computeFan.zaMa();
 
-            int fanNums = endResult.getFanNums() + zaMaScore;
-
-
-            endResult.excuteScore(fanNums);
-            computeFan.computeGuaFengXiaYu();
-
+            //int fanNums = endResult.getFanNums();// + zaMaScore;
+            //endResult.excuteScore();
+            computeFan.executeScore(endResult);
+            //computeFan.computeGuaFengXiaYu();
             room.getRoomInfo().changeScore(endResult.getUserPaiInfos());
         }
         GameChapterEnd msg = endResult.toMessage();
@@ -429,9 +460,36 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
 
 
         isStart = false;
-        clear();
+        //clear();
+        operationCPGH = null;
+        operationFaPai = null;
+        operationOut = null;
+
         room.sendMessage(msg);
-        room.endChapter(endResult, this);
+        try {
+            room.endChapter(endResult, this);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//        operationCPGH = null;
+//        operationFaPai = null;
+//        operationOut = null;
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        startNextChapter();
+    }
+
+    private void startNextChapter() throws InstantiationException, IllegalAccessException {
+        start();
+        for (SceneUser u : room.getRoomInfo().getUsers()) {
+            if (u != null && u.isJoinGame()) {
+                u.sendMessage(toMessage(u.getLocationIndex()));
+            }
+        }
+        startNext();
     }
 
     private void clear() {
@@ -439,7 +497,9 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
         paiPool.clear();
         huiEr = null;
         for (UserPlace u : userPlaces) {
-            u.clear();
+            if (u != null) {
+                u.clear();
+            }
         }
     }
 
@@ -447,7 +507,7 @@ public abstract class AbstractMajiangChapter implements MajiangChapter {
         sync(opt, Arrays.stream(pais).mapToInt(Pai::getIndex).toArray());
     }
 
-    protected void huangPai() {
+    protected void huangPai() throws IllegalAccessException, InstantiationException {
         end(-1, -1, false);
     }
 

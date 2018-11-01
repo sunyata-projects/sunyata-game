@@ -14,8 +14,9 @@ import java.util.Arrays;
  */
 public class JiamusiMajiangChapter extends AbstractMajiangChapter implements Ting {
 
-    public JiamusiMajiangChapter(Room roomInfo, Rules rule, PaiPoolInterface paiPool, ComputeFanInterface computeFan) {
-        super(roomInfo, rule, paiPool, computeFan);
+    public JiamusiMajiangChapter(Room roomInfo, Rules rule, PaiPoolInterface paiPool, ComputeFanInterface computeFan,
+                                 JudgeHuService judgeHuService) {
+        super(roomInfo, rule, paiPool, computeFan, judgeHuService);
     }
 
     @Override

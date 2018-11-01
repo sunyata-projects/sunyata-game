@@ -24,12 +24,13 @@ public class DaMingGangAfterOtherChuPaiAction implements MajiangAction {
             checkResult, Pai pai, int currentIndex) {
         if (checkResult.getActionName().equals(OperationNames.OPT_DA_MING_GANG)) {
             operationCPGH.add(new OperationCPGHInfo().setOpt(OperationNames.OPT_DA_MING_GANG).setPai(new
-                    int[]{chapter.getCurrentChuPai().getIndex()}), pai, currentIndex);
+                    int[]{pai.getIndex()}).setSuggest(checkResult.getSuggest()), pai, currentIndex);
         }
     }
 
     @Override
-    public List<CheckResult> generationAction(List<CheckResult> checkResults, MajiangChapter chapter, UserPlace userPlace, Pai pai, int index, int i) {
+    public List<CheckResult> generationAction(List<CheckResult> checkResults, MajiangChapter chapter, UserPlace
+            userPlace, Pai pai, int index, int i) {
         boolean daMingGang = userPlace.isDaMingGang(pai);
         if (daMingGang) {
             CheckResult result = new CheckResult(index, i).setActionName(OperationNames.OPT_DA_MING_GANG);

@@ -1,15 +1,12 @@
 package org.sunyata.game.majiang.core.models.majiang;
 
-import org.sunyata.game.majiang.core.models.majiang.guangdong.BaseFanType;
-import org.sunyata.game.majiang.core.models.majiang.guangdong.JiaFanType;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
  * 算翻结果
  *
- * @author leo on 2016/11/5.
+ * @author leo on 2017/11/5.
  */
 public class FanResult {
     //雀頭
@@ -17,16 +14,18 @@ public class FanResult {
     //顺子
     private Pai[] shunZi;
     //刻子
-    private Pai[] keZi;
+    private ArrayList<Pai> keZi = new ArrayList<>();
 
-    private BaseFanType baseFanType;
-    private ArrayList<JiaFanType> jiaFans = new ArrayList<>();
+    private String baseFanName;
+
+    private ArrayList<JiaFanTypeInterface> jiaFans = new ArrayList<>();
 
     private int fan;
 
     private String fanString;
 
     private int[] huiErBian;
+
 
     public FanResult() {
 
@@ -43,7 +42,6 @@ public class FanResult {
     public void setFanString(String fanString) {
         this.fanString = fanString;
     }
-
 
 
     public String getFanString() {
@@ -91,23 +89,31 @@ public class FanResult {
         this.shunZi = shunZi;
     }
 
-    public Pai[] getKeZi() {
+    public ArrayList<Pai> getKeZi() {
         return keZi;
     }
 
     public void setKeZi(Pai[] keZi) {
-        this.keZi = keZi;
+        if (keZi != null && keZi.length > 0) {
+            if (this.keZi == null) {
+                this.keZi = new ArrayList<>();
+            }
+            for (Pai pai : keZi) {
+                this.keZi.add(pai);
+            }
+        }
+        //this.keZi = keZi;
     }
 
-    public BaseFanType getBaseFanType() {
-        return baseFanType;
+    public String getBaseFanName() {
+        return baseFanName;
     }
 
-    public void setBaseFanType(BaseFanType baseFanType) {
-        this.baseFanType = baseFanType;
+    public void setBaseFanName(String baseFanName) {
+        this.baseFanName = baseFanName;
     }
 
-    public ArrayList<JiaFanType> getJiaFans() {
+    public ArrayList<JiaFanTypeInterface> getJiaFans() {
         return jiaFans;
     }
 
@@ -126,8 +132,8 @@ public class FanResult {
         return "FanResult{" +
                 "queTou=" + queTou +
                 ", shunZi=" + Arrays.toString(shunZi) +
-                ", keZi=" + Arrays.toString(keZi) +
-                ", baseFanType=" + baseFanType +
+                //", keZi=" + Arrays.toString(keZi) +
+                ", baseFanType=" + baseFanName +
                 ", jiaFans=" + jiaFans +
                 ", fan=" + fan +
                 ", fanString='" + fanString + '\'' +

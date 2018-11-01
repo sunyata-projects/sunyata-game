@@ -63,7 +63,6 @@ public class LoginCommand extends AbstractCommandHandler {
 
     @Override
     public void execute(OctopusPacketRequest request, OctopusPacketResponse response) throws Exception {
-        //OctopusPacketUserMessage userMessage = (OctopusPacketUserMessage) request.getMessage();
         OctopusRawMessage rawMessage = request.getMessage().getRawMessage();
         Common.LoginRequestMsg loginRequest = Common.LoginRequestMsg.parseFrom(rawMessage.getBody());
         int userInGatewayId = request.getMessage().getDataId();
@@ -113,7 +112,7 @@ public class LoginCommand extends AbstractCommandHandler {
 //                    Commands.loginRet,
 //                    loginResponseMsg.toByteArray());
             //anyClientManager.forwardMessageThroughInnerGateway(toUserPacketMessage);
-            anyClientManager.sendMessageToUser(request.getMessage().getDataId(), request.getMessage()
+            anyClientManager.sendMessageToUserByInnerGatewayServer(request.getMessage().getDataId(), request.getMessage()
                     .getSourceServerId(), Commands.loginRet, loginResponseMsg.toByteArray());
 
         }

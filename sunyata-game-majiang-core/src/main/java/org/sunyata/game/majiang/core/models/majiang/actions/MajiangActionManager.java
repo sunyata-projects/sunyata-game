@@ -17,12 +17,12 @@ public class MajiangActionManager {
     //    public static void generateOperation(List<CheckResult> checkResults, OperationCPGH operationCPGH) {
 //
 //    }
-    public static void convertToOperationCPGH(MajiangChapter chapter, List<Class<? extends MajiangAction>>
-            actionMap, OperationCPGH operationCPGH, CheckResult checkResult, Pai pai, int currentIndex) throws
-            IllegalAccessException,
+    public static void convertToOperationCPGH(OperationWhen operationWhen, MajiangChapter chapter, List<Class<?
+            extends MajiangAction>> actionMap, OperationCPGH operationCPGH, CheckResult checkResult, Pai pai, int
+                                                      currentIndex) throws IllegalAccessException,
             InstantiationException {
         List<Class<? extends MajiangAction>> collect = actionMap.stream().filter(p -> p.getAnnotation(Action.class)
-                != null).collect(Collectors.toList());
+                != null && p.getAnnotation(Action.class).operationWhen() == operationWhen).collect(Collectors.toList());
         for (Class<? extends MajiangAction> actionClass : collect) {
             MajiangAction majiangAction = actionClass.newInstance();
             majiangAction.convertToOperationCPGH(chapter, operationCPGH, checkResult, pai, currentIndex);

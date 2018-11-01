@@ -13,6 +13,18 @@ public class UserLocationInfo implements Serializable {
     int userId;
     String openId;
     int roomId;
+    int sceneServerId;
+
+
+    public int getSceneServerId() {
+        return sceneServerId;
+    }
+
+    public UserLocationInfo setSceneServerId(int sceneServerId) {
+        this.sceneServerId = sceneServerId;
+        return this;
+    }
+
 
 
     public int getRoomId() {

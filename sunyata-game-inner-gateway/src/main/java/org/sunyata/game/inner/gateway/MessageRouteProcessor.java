@@ -122,7 +122,8 @@ public class MessageRouteProcessor implements MessageProcessor, ApplicationConte
             }
         } else if (routeMode.equalsIgnoreCase(ServerCommand.directMode)) {
             int destServerId = rawMessage.getDestServerId();
-            if (destServerId < 0) {
+            destServerId = destServerId < 0 ? packetMessage.getDestServerId() : destServerId;
+            if (destServerId <= 0) {
                 throw new Exception("必须提供destServerId:" + rawMessage.getCmd());
             }
             ClientServerInfo descClientServerInfo = serverLocation.getDescClientServerInfo(destServerId,

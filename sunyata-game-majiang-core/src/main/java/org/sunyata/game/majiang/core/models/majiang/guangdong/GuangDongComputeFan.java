@@ -11,6 +11,7 @@ import java.util.stream.Stream;
  */
 public class GuangDongComputeFan implements ComputeFanInterface {
     private MajiangChapter chapter;
+    private JudgeHuService judgeHuService;
     private ChapterEndResult endResult;
 
 //    public GuangDongComputeFan(MajiangChapter chapter,
@@ -38,8 +39,10 @@ public class GuangDongComputeFan implements ComputeFanInterface {
 //    }
 
     public ComputeFanInterface build(MajiangChapter chapter,
-                                     int huPaiIndex, int fangPaoIndex, boolean isGangShangHua) {
+                                     int huPaiIndex, int fangPaoIndex, boolean isGangShangHua, JudgeHuService
+                                             judgeHuService) {
         this.chapter = chapter;
+        this.judgeHuService = judgeHuService;
         endResult = new ChapterEndResult();
         endResult.setHuPai(huPaiIndex != -1);
         endResult.setZhuangIndex(chapter.getZhuangIndex());
@@ -62,6 +65,29 @@ public class GuangDongComputeFan implements ComputeFanInterface {
         return this;
     }
 
+    @Override
+    public void executeScore(ChapterEndResult endResult) {
+        int score = endResult.getFanNums();
+        UserPaiInfo[] userPaiInfos = endResult.getUserPaiInfos();
+        int huPaiIndex = endResult.getHuPaiIndex();
+        int fangPaoIndex = endResult.getFangPaoIndex();
+        for (int i = 0; i < userPaiInfos.length; i++) {
+            userPaiInfos[i].setFan(score);
+        }
+        if (fangPaoIndex == -1) {
+            for (int i = 0; i < userPaiInfos.length; i++) {
+                if (i != huPaiIndex) {
+                    userPaiInfos[i].setScore(-score);
+                }
+            }
+            userPaiInfos[huPaiIndex].setScore(score * 3);
+        } else {
+            userPaiInfos[fangPaoIndex].setScore(-score);
+            userPaiInfos[huPaiIndex].setScore(score);
+        }
+        computeGuaFengXiaYu();
+    }
+
     public GuangDongComputeFan() {
 
     }
@@ -76,7 +102,6 @@ public class GuangDongComputeFan implements ComputeFanInterface {
 
             computeUser(userPaiInfos[endResult.getHuPaiIndex()], userPlace);
         }
-
         return endResult;
     }
 
@@ -91,8 +116,53 @@ public class GuangDongComputeFan implements ComputeFanInterface {
         }
     }
 
+    private void computeFanResult(FanResult fanResult, ChapterEndResult chapteResult, UserPlace userPlace,
+                                  UserPaiInfo userPaiInfo) {
+        GuangDongBaseFanType baseFanType;
+        GuangDongJudgeHuService guangDongJudgeHuService = (GuangDongJudgeHuService) judgeHuService;
+        if (!userPlace.hasAllOut()) {
+            baseFanType = userPaiInfo.isZhuang() ? GuangDongBaseFanType.TIAN_HU : GuangDongBaseFanType.DI_HU;
+        } else if (userPlace.isHuiErGang(chapter.getRules().isHuiErGang(), chapteResult.getHuiEr())) {
+            baseFanType = GuangDongBaseFanType.HUI_ER_GANG;
 
-    public void computeGuaFengXiaYu() {
+        } else if (guangDongJudgeHuService.isQiDui(userPlace)) {
+            baseFanType = GuangDongBaseFanType.QI_DUI;
+        } else if (fanResult.isDuiDuiHu(userPaiInfo)) {
+            baseFanType = GuangDongBaseFanType.DUI_DUI_HU;
+        } else if (userPaiInfo.isZiMo()) {
+            baseFanType = GuangDongBaseFanType.ZI_MO;
+        } else {
+            baseFanType = GuangDongBaseFanType.JI_HU;
+        }
+        FanInfo baseFanInfo = GuangDongBaseFanType.getBaseFanMap().get(baseFanType);
+
+
+        fanResult.setBaseFanName(baseFanType.getName());
+        StringBuilder sb = new StringBuilder();
+
+        int fan = baseFanInfo.getScore();
+        sb.append(baseFanInfo.getName());
+        for (Map.Entry<JiaFanTypeInterface, FanInfo> entry : GuangDongJiaFanType.jiaFanMap.entrySet()) {
+            JiaFanTypeInterface jiaFan = entry.getKey();
+            FanInfo jiaFanInfo = entry.getValue();
+            JiaFanComputeResultInfo compute = jiaFan.compute(fanResult, chapteResult, userPlace, userPaiInfo);
+            for (int i = 0; i < compute.getNums(); i++) {
+                fanResult.getJiaFans().add(jiaFan);
+                fan += jiaFanInfo.getScore();
+            }
+            if (compute.getNums() == 1) {
+                sb.append(' ');
+                sb.append(jiaFanInfo.getName());
+            } else if (compute.getNums() > 2) {
+                sb.append(' ');
+                sb.append(jiaFanInfo.getName()).append("x").append(compute.getNums());
+            }
+        }
+        fanResult.setFan(fan);
+        fanResult.setFanString(sb.toString());
+    }
+
+    private void computeGuaFengXiaYu() {
         UserPaiInfo[] userPaiInfos = endResult.getUserPaiInfos();
         for (int i = 0; i < userPaiInfos.length; i++) {
             UserPaiInfo userPaiInfo = userPaiInfos[i];
@@ -112,55 +182,11 @@ public class GuangDongComputeFan implements ComputeFanInterface {
         }
     }
 
-    private void computeFanResult(FanResult fanResult, ChapterEndResult chapteResult, UserPlace userPlace,
-                                  UserPaiInfo userPaiInfo) {
-        BaseFanType baseFanType;
 
-        if (!userPlace.hasAllOut()) {
-            baseFanType = userPaiInfo.isZhuang() ? BaseFanType.TIAN_HU : BaseFanType.DI_HU;
-        } else if (userPlace.isHuiErGang(chapter.getRules().isHuiErGang(), chapteResult.getHuiEr())) {
-            baseFanType = BaseFanType.HUI_ER_GANG;
-        } else if (userPlace.isQiDui()) {
-            baseFanType = BaseFanType.QI_DUI;
-        } else if (fanResult.isDuiDuiHu(userPaiInfo)) {
-            baseFanType = BaseFanType.DUI_DUI_HU;
-        } else if (userPaiInfo.isZiMo()) {
-            baseFanType = BaseFanType.ZI_MO;
-        } else {
-            baseFanType = BaseFanType.JI_HU;
-        }
-        FanInfo baseFanInfo = chapter.getRules().getBaseFanMap().get(baseFanType);
-
-
-        fanResult.setBaseFanType(baseFanType);
-        StringBuilder sb = new StringBuilder();
-
-        int fan = baseFanInfo.getScore();
-        sb.append(baseFanInfo.getName());
-        for (Map.Entry<JiaFanType, FanInfo> entry : chapter.getRules().getJiaFanMap().entrySet()) {
-            JiaFanType jiaFan = entry.getKey();
-            FanInfo jiaFanInfo = entry.getValue();
-            int nums = jiaFan.compute(fanResult, chapteResult, userPlace, userPaiInfo);
-            for (int i = 0; i < nums; i++) {
-                fanResult.getJiaFans().add(jiaFan);
-                fan += jiaFanInfo.getScore();
-            }
-            if (nums == 1) {
-                sb.append(' ');
-                sb.append(jiaFanInfo.getName());
-            } else if (nums > 2) {
-                sb.append(' ');
-                sb.append(jiaFanInfo.getName()).append("x").append(nums);
-            }
-        }
-        fanResult.setFan(fan);
-        fanResult.setFanString(sb.toString());
-    }
-
-    private int computeJiaFan(JiaFanType jiaFan) {
-        FanInfo fanInfo = chapter.getRules().getJiaFanMap().get(jiaFan);
-        return fanInfo == null ? 0 : fanInfo.getScore();
-    }
+//    private int computeJiaFan(GuangDongJiaFanType jiaFan) {
+//        FanInfo fanInfo = chapter.getRules().getJiaFanMap().get(jiaFan);
+//        return fanInfo == null ? 0 : fanInfo.getScore();
+//    }
 
     public int zaMa() {
         return zaMaScore();
@@ -175,7 +201,7 @@ public class GuangDongComputeFan implements ComputeFanInterface {
             int zaMa = rules.getConfig().getInt(RoomConfigInfo.MAI_MA);
             if (zaMa == -1) {
 
-                Pai freePai = paiPool.getFreePai();
+                Pai freePai = paiPool.getFreePai(chapter.getCurrentIndex());
                 int zamaScore = zaMaYIMa(freePai);
                 endResult.setZaMaPai(new int[]{freePai.getIndex()});
                 endResult.setZaMaFan(zamaScore);
@@ -184,7 +210,7 @@ public class GuangDongComputeFan implements ComputeFanInterface {
                 int zamaScore = 0;
                 List<Pai> zaMaPai = new ArrayList<>();
                 for (int i = 0; i < zaMa; i++) {
-                    Pai freePai = paiPool.getFreePai();
+                    Pai freePai = paiPool.getFreePai(chapter.getCurrentIndex());
                     if (freePai != null) {
                         if (freePai.getDian() == 1 ||
                                 freePai.getDian() == 5 ||

@@ -6,10 +6,12 @@ package org.sunyata.game.majiang.core.models.majiang;
 public interface ComputeFanInterface {
     ChapterEndResult compute();
 
-    void computeGuaFengXiaYu();
+    //void computeGuaFengXiaYu();
 
-    public int zaMa();
+//    public int zaMa();
 
     ComputeFanInterface build(MajiangChapter guangDongMajiangChapter, int huPaiLocationIndex, int fangPaoIndex, boolean
-            isGangShangHua);
+            isGangShangHua,JudgeHuService judgeHuService);
+
+    void executeScore(ChapterEndResult endResult);
 }

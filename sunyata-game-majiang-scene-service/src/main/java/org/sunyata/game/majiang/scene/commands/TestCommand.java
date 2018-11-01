@@ -10,7 +10,7 @@ import org.sunyata.game.ServerCommand;
 import org.sunyata.game.client.AnyClientManager;
 import org.sunyata.game.command.AbstractCommandHandler;
 import org.sunyata.game.contract.Commands;
-import org.sunyata.game.contract.protobuf.test.Test;
+import org.sunyata.game.contract.protobuf.room.Room;
 import org.sunyata.game.lock.LockService;
 import org.sunyata.game.majiang.core.service.RoomDomainService;
 import org.sunyata.game.majiang.core.service.RoomLockKeys;
@@ -60,48 +60,53 @@ public class TestCommand extends AbstractCommandHandler implements ApplicationCo
     public void execute(OctopusPacketRequest request, OctopusPacketResponse response) throws Exception {
         int userIdInGateway = request.getMessage().getDataId();
         int gatewayServerId = request.getMessage().getSourceServerId();
-        Test.TestReq testReq = Test.TestReq.parseFrom(request.getMessage().getRawMessage().getBody());
-        logger.info("TestCommand:name:{},id:{}", testReq.getName(), testReq.getId());
-        for (int i = 0; i < 1000; i++) {
+//        Test.TestReq testReq = Test.TestReq.parseFrom(request.getMessage().getRawMessage().getBody());
+        //logger.info("TestCommand:name:{},id:{}", testReq.getName(), testReq.getId());
+        for (int i = 0; i < 100; i++) {
+            int finalI = i;
             executorService.submit(new Callable<Object>() {
                 @Override
                 public Object call() throws Exception {
-                    testRec(userIdInGateway, gatewayServerId);
+                    int i1 = RandomUtils.nextInt(1000);
+                    String randomString = RandomUtils.createRandomString(i1);
+                    testRec(userIdInGateway, gatewayServerId, finalI + "-----" + randomString);
                     return null;
                 }
             });
+            //  });
 
-            executorService.submit(new Callable<Object>() {
-                @Override
-                public Object call() throws Exception {
-                    test2Rec(userIdInGateway, gatewayServerId);
-                    return null;
-                }
-            });
+//            executorService.submit(new Callable<Object>() {
+//                @Override
+//                public Object call() throws Exception {
+//                    test2Rec(userIdInGateway, gatewayServerId);
+//                    return null;
+//                }
+//            });
+
+
         }
-
     }
 
-    public void testRec(int userIdInGateway, int gatewayServerId) throws Exception {
+    public void testRec(int userIdInGateway, int gatewayServerId, String i) throws Exception {
         //for (int i = 0; i < 100; i++) {
-        Test.Test2RetReq.Builder builder = Test.Test2RetReq.newBuilder();
-        int i = RandomUtils.nextInt(1000);
-        Test.Test2RetReq.Builder builder1 = builder.setAge(i).setField1("ldsksdfsdf" + i).setFlag(true).setName
-                ("sdlfjsdkfjslkdf" + i);
-        anyClientManager.sendMessageToUser(userIdInGateway, gatewayServerId, Commands.testCommand2Ret, builder1
+        //Test.Test2RetReq.Builder builder = Test.Creat.newBuilder();
+        Room.CreateRoomRes.Builder builder = Room.CreateRoomRes.newBuilder();
+//        int i = RandomUtils.nextInt(1000);
+        Room.CreateRoomRes.Builder builder1 = builder.setRoomCheckId(i);
+        anyClientManager.sendMessageToUserByInnerGatewayServer(userIdInGateway, gatewayServerId, Commands.testCommandRet, builder1
                 .build().toByteArray());
         //}
     }
 
-    public void test2Rec(int userIdInGateway, int gatewayServerId) throws Exception {
-        //for (int i = 0; i < 100; i++) {
-        Test.TestRetReq.Builder builder = Test.TestRetReq.newBuilder();
-        Test.TestRetReq.Builder builder1 = builder.setId(2121).setName("dslfsdkfjlsdf");
-        anyClientManager.sendMessageToUser(userIdInGateway, gatewayServerId, Commands.testCommandRet, builder1
-                .build().toByteArray());
-        //}
-    }
-
+    //    public void test2Rec(int userIdInGateway, int gatewayServerId) throws Exception {
+//        //for (int i = 0; i < 100; i++) {
+//        Test.TestRetReq.Builder builder = Test.TestRetReq.newBuilder();
+//        Test.TestRetReq.Builder builder1 = builder.setId(2121).setName("dslfsdkfjlsdf");
+//        anyClientManager.sendMessageToUserByInnerGatewayServer(userIdInGateway, gatewayServerId, Commands.testCommandRet, builder1
+//                .build().toByteArray());
+//        //}
+//    }
+//
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;

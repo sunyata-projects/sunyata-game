@@ -86,7 +86,7 @@ public class RoomCheckIdPoolUtils {
                 RoomCheckIdPool item = new RoomCheckIdPool();
                 for (int i = 0; i < INIT_ID_NUMS; ) {
                     item.setId(RandomStringUtils.randomNumeric(CHECK_ROOM_ID_LEN));
-                    item.setStatus(RoomCheckStatus.Buffer.getValue());
+                    item.setState(RoomCheckStatus.Buffer.getValue());
                     try {
                         roomCheckIdPoolDao.insert(item);
                         i++;

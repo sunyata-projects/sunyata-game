@@ -1,7 +1,6 @@
 org/sunyata/game/majiang/scene/CommandMessageManager.class
 org/sunyata/game/majiang/scene/commands/JoinGameToSceneCommand.class
 org/sunyata/game/majiang/scene/ApplicationBootStrap.class
-org/sunyata/game/majiang/scene/commands/TestCommand$2.class
 org/sunyata/game/majiang/scene/commands/OptOutRetCommand.class
 org/sunyata/game/majiang/scene/Client.class
 org/sunyata/game/majiang/scene/commands/TestCommand$1.class
@@ -15,5 +14,4 @@ org/sunyata/game/majiang/scene/commands/OptFaPaiRetCommand.class
 org/sunyata/game/majiang/scene/sdfsd.class
 org/sunyata/game/majiang/scene/Application.class
 org/sunyata/game/majiang/scene/commands/UserJoinGameEventCommand.class
-org/sunyata/game/majiang/scene/commands/UserOfflineEventCommand.class
 org/sunyata/game/majiang/scene/SceneListenHandler.class

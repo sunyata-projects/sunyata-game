@@ -13,7 +13,6 @@ org/sunyata/game/thread/ScheduledExecutorsUtils$ErrorHandlerThreadPoolExecutor.c
 org/sunyata/game/server/message/AbstractJsonBodySerializer.class
 org/sunyata/game/server/message/NullJsonBodySerializer.class
 org/sunyata/game/service/MessageQueueService.class
-org/sunyata/game/EnableGameServer.class
 org/sunyata/game/server/Session.class
 org/sunyata/game/service/DispatchItem.class
 org/sunyata/game/client/AnyClient.class
@@ -69,7 +68,6 @@ org/sunyata/game/exceptions/NotImplementServerCommandException.class
 org/sunyata/game/MessageProcessor.class
 org/sunyata/game/io/ConsoleCommand.class
 org/sunyata/game/server/message/OctopusToUserRawMessage.class
-org/sunyata/game/ComponentConfig.class
 org/sunyata/game/server/httpserver/HttpStaticFileServerHandler.class
 org/sunyata/game/server/NetHandler.class
 org/sunyata/game/ServerConfigProperties.class

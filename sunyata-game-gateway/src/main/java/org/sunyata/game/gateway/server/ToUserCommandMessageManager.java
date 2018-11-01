@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import org.sunyata.game.gateway.SessionService;
 import org.sunyata.game.gateway.User;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * Created by leo on 17/11/8.
  */
@@ -22,6 +24,8 @@ public class ToUserCommandMessageManager implements MessageProcessor {
     @Autowired
     SessionService sessionService;
 
+    AtomicInteger atomicInteger = new AtomicInteger();
+
     @Override
     public void handler(OctopusPacketRequest request, OctopusPacketResponse response) throws Exception {
         OctopusPacketMessage packetMessage = request.getMessage();
@@ -29,9 +33,12 @@ public class ToUserCommandMessageManager implements MessageProcessor {
         logger.info("网关->用户,CommandId:{},UserSessionId:{}", rawMessage.getCmd(), packetMessage.getDataId());
         User user = sessionService.getUser(packetMessage.getDataId());
         if (user != null) {
+            if (packetMessage.getDataId() == 0) {
+                logger.info("发关给客户端消息总量:{}", atomicInteger.incrementAndGet());
+            }
             user.writeAndFlush(rawMessage);
         } else {
-            logger.error("用户已离线:userSessionID:", user.getId());
+            logger.error("用户已离线:userSessionID:", packetMessage.getDataId());
         }
     }
 }

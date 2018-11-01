@@ -1,5 +1,6 @@
 package org.sunyata.game.majiang.core.models.message;
 
+import org.sunyata.game.contract.Commands;
 import org.sunyata.game.server.message.AbstractMessage;
 
 /**
@@ -9,7 +10,7 @@ import org.sunyata.game.server.message.AbstractMessage;
  * @author isnowfox消息生成器
  */
 public class UserOffline extends AbstractMessage{
-	public static final int TYPE			 = 1;
+	public static final int TYPE			 = Integer.parseInt(Commands.userOffline);
 	public static final int ID				 = 19;
 	
 	private int index;

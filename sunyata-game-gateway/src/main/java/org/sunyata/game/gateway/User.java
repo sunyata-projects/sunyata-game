@@ -1,11 +1,14 @@
 package org.sunyata.game.gateway;
 
-import org.sunyata.game.server.message.OctopusToUserRawMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sunyata.game.server.message.OctopusToUserRawMessage;
 
 public class User {
+    Logger logger = LoggerFactory.getLogger(User.class);
     private short id;
     private Channel channel;
     private boolean isLogin;
@@ -38,6 +41,10 @@ public class User {
         buffer.writeInt(length);//4
         if (length > 0) {
             buffer.writeBytes(obj.getBody());
+        } else {
+            byte[] body = obj.getBody();
+            int len = body == null ? 0 : body.length;
+            logger.info("网关->用户:消息长度为0,body:{},body长度:{},commandId:{}", body == null, len, obj.getCmd());
         }
 
         BinaryWebSocketFrame frame = new BinaryWebSocketFrame(buffer);

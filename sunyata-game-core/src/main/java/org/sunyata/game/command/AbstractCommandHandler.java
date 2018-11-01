@@ -67,7 +67,7 @@ public abstract class AbstractCommandHandler implements CommandHandler {
 //        OctopusPacketMessage toUserPacketMessage = MessageFactory.createToUserPacketMessage(userIdInGateway,
 //                sourceServerId, destServerId, commandId, bytes);
 //        anyClientManager.forwardMessage(descClientServerInfo, toUserPacketMessage);
-        anyClientManager.sendMessageToUser(userIdInGateway,destServerId,commandId,bytes);
+        anyClientManager.sendMessageToUserByInnerGatewayServer(userIdInGateway,destServerId,commandId,bytes);
     }
 
     @Override

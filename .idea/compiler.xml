@@ -34,6 +34,7 @@
       <module name="sunyata-game-state-manager" target="1.8" />
       <module name="sunyata-game-test-client" target="1.8" />
       <module name="sunyata-game-test-server" target="1.8" />
+      <module name="sunyatagameblockchain" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -22,6 +22,24 @@ public class SetTable {
 
 	public void dump(String name) {
 	}
+//    public List readJson(String name) throws IOException {
+//        Resource resource = applicationContext.getResource(String.format("classpath:%s.json", name));
+//
+////        File file = resource.getFile();
+////        byte[] buffer = new byte[(int) file.length()];
+////        FileInputStream is = new FileInputStream(file);
+////
+////        is.read(buffer, 0, buffer.length);
+////
+////        is.close();
+////        String str = new String(buffer);
+//        InputStream inputStream = resource.getInputStream();
+//        String str = convertStreamToStream(inputStream);
+//        List List = Json.decodeValue(str, List.class);
+//        //System.out.println(str);
+//        return List;
+//
+//    }
 
 	public void load(String path) {
 		BufferedReader br = null;

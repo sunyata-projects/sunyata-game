@@ -7,7 +7,7 @@ import org.sunyata.game.majiang.core.models.majiang.ChapterEndResult;
 /**
  * 数据库操作相关
  *
- * @author leo on 2016/12/28.
+ * @author leo on 2017/12/28.
  */
 @Component
 public class DbService {

@@ -2,13 +2,15 @@ package org.sunyata.game.majiang.core.models.majiang;
 
 import org.sunyata.game.contract.majiang.OperationNames;
 
+import java.util.List;
+
 /**
- * @author leo on 2016/10/31.
+ * @author leo on 2017/10/31.
  */
 public class CheckResult {
 
     String actionName;
-    Pai[] pais;
+    List<Pai[]> pais;
     private int locationIndex;
     private int sequence;
 
@@ -35,11 +37,11 @@ public class CheckResult {
         return this;
     }
 
-    public Pai[] getPais() {
+    public List<Pai[]> getPais() {
         return pais;
     }
 
-    public CheckResult setPais(Pai[] pais) {
+    public CheckResult setPais(List<Pai[]> pais) {
         this.pais = pais;
         return this;
     }

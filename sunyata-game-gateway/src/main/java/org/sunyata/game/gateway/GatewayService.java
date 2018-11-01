@@ -50,7 +50,6 @@ public class GatewayService {
     }
 
     private void forwardFormUser(OctopusRequest request, OctopusResponse response) throws Exception {
-        //User u = request.<User>getSession().get();
         logger.info("用户->网关,CommandId:{}", request.getMessage().getCmd());
         int cmdId = request.getMessage().getCmd();
         List<ServerCommandInfo> commandInfos = commandService.getCommandInfo(cmdId);

@@ -10,7 +10,7 @@ import org.sunyata.game.majiang.core.service.Room;
  */
 public class GuangDongMajiangChapter extends AbstractMajiangChapter {
     public GuangDongMajiangChapter(Room roomInfo, Rules rule, PaiPoolInterface paiPool, ComputeFanInterface
-            computeFan) {
-        super(roomInfo, rule, paiPool, computeFan);
+            computeFan, JudgeHuService judgeHuService) {
+        super(roomInfo, rule, paiPool, computeFan, judgeHuService);
     }
 }

@@ -42,7 +42,7 @@ public class HuAfterOtherChuPaiAction implements MajiangAction {
     }
 
     @Override
-    public void processAction(MajiangChapter chapter, UserPlace userPlace, Pai pai, int locationIndex, int[] chis) {
+    public void processAction(MajiangChapter chapter, UserPlace userPlace, Pai pai, int locationIndex, int[] chis) throws IllegalAccessException, InterruptedException, InstantiationException {
         chapter.huPai(userPlace, locationIndex, pai, chapter.getWaitCurrentIndex(), false);
 //                stopCPGH(false);
     }

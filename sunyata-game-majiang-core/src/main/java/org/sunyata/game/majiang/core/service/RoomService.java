@@ -103,8 +103,7 @@ public class RoomService extends FrameQueueContainer implements ApplicationConte
 
                 RoomConfigInfo config = new RoomConfigInfo().fromJsonString(msg.getRoomEntity().getConfig());
                 room = new RoomImpi(roomAsyncService, config);
-
-                RoomInfo roomInfo = new RoomInfo(room, "");
+                RoomInfo roomInfo = new RoomInfo(room, config.getRuleName());
                 BeanUtils.copyProperties(msg, roomInfo);
                 room.setRoomInfo(roomInfo);
 
@@ -174,12 +173,13 @@ public class RoomService extends FrameQueueContainer implements ApplicationConte
                         .getRoomEntity().getRoomCheckId()).setDestServerId(serverConfigProperties
                         .getServerId()).build();
 //                OctopusPacketMessage toUserPacketMessage = MessageFactory.createToUserPacketMessage(msg
-//                                .getJoinSessionId(), serverConfigProperties.getServerId(), msg.getJoinGatewayId(), Commands
+//                                .getJoinSessionId(), serverConfigProperties.getServerId(), msg.getJoinGatewayId(),
+// Commands
 //                        .joinRoomRet,
 //                        joinRoomRes.toByteArray());
                 try {
 //                    anyClientManager.forwardMessageThroughInnerGateway(toUserPacketMessage);
-                    anyClientManager.sendMessageToUser(msg.getJoinSessionId(), msg.getJoinGatewayId(), Commands
+                    anyClientManager.sendMessageToUserByInnerGatewayServer(msg.getJoinSessionId(), msg.getJoinGatewayId(), Commands
                             .joinRoomRet, joinRoomRes.toByteArray());
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -189,7 +189,7 @@ public class RoomService extends FrameQueueContainer implements ApplicationConte
     }
 
     public SceneUser getSceneUser(int userIdInGateway, int gatewayServerId) {
-        long gatewayIdUnionSessionId = getGatewayIdUnionSessionId(userIdInGateway,gatewayServerId);
+        long gatewayIdUnionSessionId = getGatewayIdUnionSessionId(userIdInGateway, gatewayServerId);
         SceneUser sceneUser = gatewayIdUnionSessionIdUserMap.get(gatewayIdUnionSessionId);
         return sceneUser;
     }

@@ -5,15 +5,13 @@ package org.sunyata.game.majiang.scene; /**
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.sunyata.game.EnableGameServer;
-import org.sunyata.game.state.manager.config.EnableOctopusState;
+import org.sunyata.game.state.manager.config.EnableGameServer;
 
 @SpringBootApplication
 @EnableDiscoveryClient
 //@EnableScheduling
 //@EnableQuarkClient
 //@EnableThriftClient
-@EnableOctopusState
 @EnableGameServer
 //@ComponentScan("org.sunyata.game.majiang.core.mapper")
 public class Application {

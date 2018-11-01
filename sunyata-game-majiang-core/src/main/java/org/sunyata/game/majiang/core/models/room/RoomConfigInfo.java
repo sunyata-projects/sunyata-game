@@ -1,9 +1,11 @@
 package org.sunyata.game.majiang.core.models.room;
 
+import org.apache.commons.lang3.StringUtils;
 import org.sunyata.core.json.Json;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.sunyata.game.contract.protobuf.room.Room;
+import org.sunyata.game.majiang.core.models.majiang.Rules;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
  */
 public class RoomConfigInfo implements Serializable {
     public static final String CHAPTER_MAX = "chapterMax";
+    public static final String CHAPTER_NUMS = "chapterNums";
     public static final String IS_HUIER = "IS_HUIER";
     public static final String MAI_MA = "maiMa";
 
@@ -28,6 +31,7 @@ public class RoomConfigInfo implements Serializable {
     public static final String BIAN_TYPE_DAN_GUI = "danGui";
     public static final String BIAN_TYPE_SHUANG_GUI = "shuangGui";
     public static final String BIAN_TYPE_TUI_DAO_HU = "tuiDaoHu";
+    public static final String ruleName = "ruleName";
     private CreateRoomType createRoomType;
     //    public RoomConfigInfo(Map<String, String> options) {
     ////        if (options instanceof TreeMap) {
@@ -37,6 +41,14 @@ public class RoomConfigInfo implements Serializable {
     ////        }
     //    }
 
+
+    public String getRuleName() {
+        String ruleName = getString(RoomConfigInfo.ruleName);
+        if (StringUtils.isEmpty(ruleName)) {
+            ruleName = Rules.gb;
+        }
+        return ruleName;
+    }
 
     public RoomConfigInfo fromProtobufReq(Room.CreateRoomReq roomReq) {
         List<Room.KeyValueInfo> ruleIdsList = roomReq.getRuleIdsList();
@@ -69,7 +81,7 @@ public class RoomConfigInfo implements Serializable {
 
     public String getString(String key) {
         KeyValueInfo value = getValue(key);
-        return value==null?null:value.getValue();
+        return value == null ? null : value.getValue();
 
     }
 

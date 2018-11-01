@@ -24,15 +24,20 @@ public abstract class AbstractMessage implements Message {
     public byte[] toBytes() {
         return null;
     }
-    public Object toPbObject(){
+
+    public Object toPbObject() {
         return null;
     }
-    public List<Integer> toList(int[] array){
-        List<Integer> intList = new ArrayList<Integer>();
-        for (int index = 0; index < array.length; index++)
-        {
-            intList.add(array[index]);
+
+    public List<Integer> toList(int[] array) {
+        if (array != null) {
+
+            List<Integer> intList = new ArrayList<Integer>();
+            for (int index = 0; index < array.length; index++) {
+                intList.add(array[index]);
+            }
+            return intList;
         }
-        return intList;
+        return new ArrayList<>();
     }
 }

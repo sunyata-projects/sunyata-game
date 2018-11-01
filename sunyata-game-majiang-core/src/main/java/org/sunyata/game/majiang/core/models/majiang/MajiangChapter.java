@@ -1,12 +1,12 @@
 package org.sunyata.game.majiang.core.models.majiang;
 
-import org.sunyata.game.server.message.Message;
 import org.sunyata.game.majiang.core.models.NoticeType;
 import org.sunyata.game.majiang.core.models.SceneUser;
 import org.sunyata.game.majiang.core.models.message.MajiangChapterMsg;
 import org.sunyata.game.majiang.core.models.message.OperationCPGH;
 import org.sunyata.game.majiang.core.models.message.OperationFaPaiNew;
 import org.sunyata.game.majiang.core.service.Room;
+import org.sunyata.game.server.message.Message;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,8 @@ public interface MajiangChapter {
 
     void startNext() throws IllegalAccessException, InstantiationException;
 
-    void faPai(boolean isSendMessage, boolean isGang) throws InstantiationException, IllegalAccessException;
+    void faPai(boolean isSendMessage, boolean isGang) throws InstantiationException, IllegalAccessException,
+            InterruptedException;
 
     void outRet(int locationIndex, int paiIndex) throws InstantiationException, IllegalAccessException, Exception;
 
@@ -85,7 +86,8 @@ public interface MajiangChapter {
 
     void stopCPGH(boolean isSync);
 
-    void huPai(UserPlace userPlace, int locationIndex, Pai pai, int fangPaoIndex, boolean isGangShangHua);
+    void huPai(UserPlace userPlace, int locationIndex, Pai pai, int fangPaoIndex, boolean isGangShangHua) throws
+            IllegalAccessException, InterruptedException, InstantiationException;
 
     void daMingGang(UserPlace userPlace, Pai pai) throws IllegalAccessException, InstantiationException;
 
@@ -104,6 +106,9 @@ public interface MajiangChapter {
     OperationFaPaiNew getOperationFaPai();
 
     int getWaitCurrentIndex();
+    int getCurrentIndex();
+
+    OperationFaPaiNew getOperationPrevFaPai();
 
     boolean getOperationFaPaiIsGang();
 

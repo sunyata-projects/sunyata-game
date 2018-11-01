@@ -38,6 +38,7 @@ public class OptFaPai implements ClientCommandHandler {
                     Room.OperationInfo operationInfo = operationInfoList.get(0);
                     if (Objects.equals(operationInfo.getOpt(), OperationNames.OPT_AN_GANG)) {
                         builder.setOpt(OperationNames.OPT_AN_GANG);
+                        builder.setPai(operationInfo.getPai(0));
                         Utils.sendMessage(Commands.optFaPaiRet, builder.build(), response);
                         logger.info("客户端暗杠:{}", JsonFormat.printToString(operationInfo));
                     } else if (Objects.equals(operationInfo.getOpt(), OperationNames.OPT_XIAO_MING_GANG)) {
